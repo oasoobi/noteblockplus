@@ -10,4 +10,5 @@
 ## 使い方
 クリエイティブインベントリからnote stickをとりだして、音ブロックに向かって右クリックするだけです。
 
-https://i.imgur.com/h7Oa1nW.png
+
+![](https://i.imgur.com/h7Oa1nW.png)
