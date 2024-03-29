@@ -1,0 +1,50 @@
+{
+	"format_version": 2,
+	"header": {
+		"name": "Note Block!",
+		"description": "",
+		"min_engine_version": [
+			1,
+			20,
+			70
+		],
+		"uuid": "281e959b-311f-42ae-9c12-bee3b1371c53",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "data",
+			"uuid": "31377e06-0147-4f6d-8181-2f3abcb98c53",
+			"version": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"type": "script",
+			"language": "javascript",
+			"uuid": "1f5e1e6c-ecd0-4568-a79c-700c1be24a5d",
+			"entry": "scripts/main.js",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
+	"dependencies": [
+		{
+			"module_name": "@minecraft/server",
+			"version": "1.10.0-beta"
+		},
+		{
+			"module_name": "@minecraft/server-ui",
+			"version": "1.2.0-beta"
+		}
+	]
+}
