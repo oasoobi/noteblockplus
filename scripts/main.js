@@ -77,7 +77,7 @@ world.beforeEvents.itemUseOn.subscribe(ev => {
                         for (let i = 0; i < chestInv.size; i++) {
                             const item = chestInv.getSlot(i);
                             if (1 < item.amount) {
-                                source.onScreenDisplay.setActionBar(`音階: ${scales[i]} クリック: ${i}`);
+                                source.onScreenDisplay.setActionBar(`scale: ${scales[i]} click: ${i}`);
                                 break;
                             }
                         }
