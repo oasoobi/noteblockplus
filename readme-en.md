@@ -1,3 +1,5 @@
+[日本語バージョン](https://github.com/oasoobi/noteblockplus/blob/main/readme.md)
+
 # Add-on to display the scale of a sound block
 [Download the latest version](https://github.com/oasoobi/noteblockplus/releases/latest/download/noteblockplus.mcpack)
 
