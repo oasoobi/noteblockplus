@@ -4,7 +4,7 @@
 [Download the latest version](https://github.com/oasoobi/noteblockplus/releases/latest/download/noteblockplus.mcpack)
 
 ## Caution: 
- - When creating a world, the Beta API must be enabled before adding the add-on.
+ - When creating a world, the Beta API must be enabled before adding the add-on. Symbol of Holiday Creator must be enabled as well.
  - In rare cases, an error may occur if you hit repeatedly.
 
 ## How to use:
