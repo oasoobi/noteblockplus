@@ -1,4 +1,4 @@
-# 音ブロックの音階を表示するアドオン。
+# 音ブロックの音階を表示するアドオン
 
 [最新版をダウンロード](https://github.com/oasoobi/noteblockplus/releases/latest/download/noteblockplus.mcpack)
 
