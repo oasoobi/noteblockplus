@@ -31,8 +31,10 @@ When creating a world, the Beta APIs must be enabled before adding the add-on. H
 
 Take a note stick from your creative inventory.
 
-and click on the note stick to check the scale without changing it.
+When sneaked, click on the note block to check the scale without changing it. 
 
-If you are not crouching, you can view the scale after it has been changed.
+If you are not sneaking, you can view the scale after it has been changed.
 
 ![](https://i.imgur.com/h7Oa1nW.png)
+
+I used deepl translations as I do not speak English.
