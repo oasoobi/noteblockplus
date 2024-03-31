@@ -13,10 +13,6 @@
             "minecraft:max_stack_size": 1,
             "minecraft:display_name": {
                 "value": "note stick"
-            },
-            "minecraft:cooldown":{
-                "category" : "noteblock_interact",
-                "duration" : 0.5
             }
         }
     }
