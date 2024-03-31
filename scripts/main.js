@@ -70,7 +70,6 @@ world.beforeEvents.itemUseOn.subscribe(ev => {
 
                 system.run(() => {
                     try {
-                        itemStack.getComponent("cooldown").startCooldown(source);
                         const chestInv = overworld.getBlock(new Vector(blocklocation.x, 319, blocklocation.z)).getComponent("minecraft:inventory").container;
                         chestInv.addItem(block.getItemStack(1, true));
                         for (let i = 0; i < chestInv.size; i++) {

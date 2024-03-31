@@ -13,7 +13,8 @@
             "minecraft:max_stack_size": 1,
             "minecraft:display_name": {
                 "value": "note stick"
-            }
+            },
+            "minecraft:can_destroy_in_creative": false
         }
     }
 }
