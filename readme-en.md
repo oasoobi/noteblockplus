@@ -1,4 +1,4 @@
-[日本語バージョン](https://github.com/oasoobi/noteblockplus/blob/main/readme.md)
+[日本語バージョン](https://github.com/oasoobi/noteblockplus/blob/main/README.md)
 
 
 # Add-on to display the scale of a sound block
