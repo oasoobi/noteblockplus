@@ -2,23 +2,23 @@
 	"format_version": 2,
 	"header": {
 		"name": "Note Block+",
-		"description": "",
+		"description": "音ブロックの音階を表示します。",
 		"min_engine_version": [
 			1,
 			20,
-			70
+			80
 		],
-		"uuid": "f4f58c0f-74aa-4633-a4e4-504d09ea1c0c",
+		"uuid": "96911363-5945-431b-9fbd-d35c95b2eea6",
 		"version": [
 			1,
 			0,
-			0
+			6
 		]
 	},
 	"modules": [
 		{
 			"type": "data",
-			"uuid": "9ab259da-0c92-4473-932d-9df43d23e2ce",
+			"uuid": "eb7952d3-e088-4e53-8083-39763f1103ad",
 			"version": [
 				1,
 				0,
@@ -28,7 +28,7 @@
 		{
 			"type": "script",
 			"language": "javascript",
-			"uuid": "5715bbe0-30e0-4c58-90aa-49db801c0017",
+			"uuid": "cdde83ed-bd60-46eb-bc8e-0c3788b068d6",
 			"entry": "scripts/main.js",
 			"version": [
 				1,
@@ -40,7 +40,7 @@
 	"dependencies": [
 		{
 			"module_name": "@minecraft/server",
-			"version": "1.10.0-beta"
+			"version": "1.11.0-beta"
 		},
 		{
 			"module_name": "@minecraft/server-ui",
