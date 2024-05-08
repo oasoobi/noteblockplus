@@ -12,7 +12,6 @@ const DefaultConfig = {
 
 world.afterEvents.playerSpawn.subscribe(e => {
     if (e.initialSpawn) {
-        console.warn(e.player.getDynamicProperty("language"))
         if (e.player.getDynamicProperty("language") == undefined) {
             e.player.setDynamicProperty("language", DefaultConfig.language);
         }
@@ -530,7 +529,6 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                             if (instrument == undefined) {
                                 instrument = source.getDynamicProperty("language") === 0 ? "piano" : "ピアノ";
                             }
-                            console.warn(instrument)
                         }
                         if (source.getDynamicProperty("language") == 0) { //言語を分ける
                             if (source.getDynamicProperty("scale_notation") == 1) { //形式が国際式か
