@@ -509,10 +509,11 @@ const instruments = {
 
 world.beforeEvents.itemUseOn.subscribe(e => {
     const { source, itemStack, block } = e;
-    if (source.isSneaking) {
-        e.cancel = true;
-    }
+
     if (itemStack.typeId == "note:note_stick" && block.typeId == "minecraft:noteblock") {
+        if (source.isSneaking) {
+            e.cancel = true;
+        }
         const blocklocation = block.location;
         system.run(() => {
             overworld.runCommandAsync(`structure load __noteblocks ${blocklocation.x} 319 ${blocklocation.z}`);
@@ -534,13 +535,13 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                             if (source.getDynamicProperty("scale_notation") == 1) { //形式が国際式か
                                 source.onScreenDisplay.setActionBar(`scale: ${scales.international[i]} ${source.getDynamicProperty("show_click_count") ? `click: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " instrument: " + instrument : ""}`);
                             } else {
-                                source.onScreenDisplay.setActionBar(`scale: ${scales.solfege.english[i]} ${source.getDynamicProperty("show_click_count") ? `click: ${i}` : ""}`);
+                                source.onScreenDisplay.setActionBar(`scale: ${scales.solfege.english[i]} ${source.getDynamicProperty("show_click_count") ? `click: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " instrument: " + instrument : ""}`);
                             }
                         } else {
                             if (source.getDynamicProperty("scale_notation") == 1) {
                                 source.onScreenDisplay.setActionBar(`音階: ${scales.solfege.japanese[i]} ${source.getDynamicProperty("show_click_count") ? `クリック: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " 楽器: " + instrument : ""}`);
                             } else {
-                                source.onScreenDisplay.setActionBar(`音階: ${scales.international[i]} ${source.getDynamicProperty("show_click_count") ? `クリック: ${i}` : ""}`);
+                                source.onScreenDisplay.setActionBar(`音階: ${scales.international[i]} ${source.getDynamicProperty("show_click_count") ? `クリック: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " 楽器: " + instrument : ""}`);
                             }
                         }
                         break;
