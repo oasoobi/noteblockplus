@@ -579,6 +579,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                         sourceEntity.setDynamicProperty("show_instrument", res.formValues[2])
                         sourceEntity.setDynamicProperty("show_click_count", res.formValues[3])
                     }
+                    sourceEntity.sendMessage("§e設定を変更しました。");
                 })
         } else {
             new ModalFormData()
@@ -603,7 +604,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                         sourceEntity.setDynamicProperty("show_instrument", res.formValues[2])
                         sourceEntity.setDynamicProperty("show_click_count", res.formValues[3])
                     }
-                    sourceEntity.sendMessage("§e" + (sourceEntity.getDynamicProperty("language") == 0 ? "The settings have been changed." : "設定を変更しました。"));
+                    sourceEntity.sendMessage("§eThe settings have been changed.");
                 })
         }
     }
