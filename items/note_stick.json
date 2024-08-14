@@ -1,12 +1,14 @@
 {
-    "format_version": "1.20.1",
+    "format_version": "1.21.20",
     "minecraft:item": {
         "description": {
             "identifier": "note:note_stick",
-            "category": "Equipment"
+            "menu_category": {  
+                "category": "equipment" 
+            }  
         },
         "components": {
-            "minecraft:foil": true,
+            "minecraft:glint": true,
             "minecraft:icon": {
                 "texture": "stick"
             },
@@ -14,7 +16,8 @@
             "minecraft:display_name": {
                 "value": "note stick"
             },
-            "minecraft:can_destroy_in_creative": false
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:interact_button": true
         }
     }
 }
