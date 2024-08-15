@@ -114,64 +114,47 @@ const scales = {
     }
 }
 
-const instruments = {
+const instruments2 = {
     japanese: {
+
+        "note_block": "バス",
+        "bookshelf": "バス",
+        "oak": "バス",
+        "spruce": "バス",
+        "birch": "バス",
+        "jungle": "バス",
+        "acacia": "バス",
+        "dark_oak": "バス",
+        "cherry": "バス",
+        "bamboo": "バス",
+        "crimson": "バス",
+        "warped": "バス",
+        "mangrove": "バス",
+        "chest": "バス",
+        "crafting_table": "バス",
+        "jukebox": "バス",
+        "mushroom": "バス",
+        "banner": "バス",
+        "daylight_detector": "バス",
+        "loom": "バス",
+        "barrel": "バス",
+        "cartography_table": "バス",
+        "lectern": "バス",
+        "smithing_table": "バス",
+        "fletching_table": "バス",
+        "campfire": "バス",
+        "composter": "バス",
+        "bee_nest": "バス",
+        "beehive": "バス",
+
+
+        "concrete_powder": "スネアドラム",
         "sand": "スネアドラム",
         "gravel": "スネアドラム",
-        "sand": "スネアドラム",
-        "red_concrete_powder": "スネアドラム",
-        "black_concrete_powder": "スネアドラム",
-        "green_concrete_powder": "スネアドラム",
-        "brown_concrete_powder": "スネアドラム",
-        "blue_concrete_powder": "スネアドラム",
-        "purple_concrete_powder": "スネアドラム",
-        "cyan_concrete_powder": "スネアドラム",
-        "light_gray_concrete_powder": "スネアドラム",
-        "gray_concrete_powder": "スネアドラム",
-        "pink_concrete_powder": "スネアドラム",
-        "lime_concrete_powder": "スネアドラム",
-        "yellow_concrete_powder": "スネアドラム",
-        "light_blue_concrete_powder": "スネアドラム",
-        "magenta_concrete_powder": "スネアドラム",
-        "orange_concrete_powder": "スネアドラム",
-        "white_concrete_powder": "スネアドラム",
 
+        "glass": "スティック",
         "sea_lantern": "スティック",
         "beacon": "スティック",
-        "glass": "スティック",
-        "glass_pane": "スティック",
-        "white_stained_glass": "スティック",
-        "white_stained_glass_pane": "スティック",
-        "orange_stained_glass": "スティック",
-        "orange_stained_glass_pane": "スティック",
-        "magenta_stained_glass": "スティック",
-        "magenta_stained_glass_pane": "スティック",
-        "light_blue_stained_glass": "スティック",
-        "light_blue_stained_glass_pane": "スティック",
-        "yellow_stained_glass": "スティック",
-        "yellow_stained_glass_pane": "スティック",
-        "lime_stained_glass": "スティック",
-        "lime_stained_glass_pane": "スティック",
-        "pink_stained_glass": "スティック",
-        "pink_stained_glass_pane": "スティック",
-        "gray_stained_glass": "スティック",
-        "gray_stained_glass_pane": "スティック",
-        "light_gray_stained_glass": "スティック",
-        "light_gray_stained_glass_pane": "スティック",
-        "cyan_stained_glass": "スティック",
-        "cyan_stained_glass_pane": "スティック",
-        "purple_stained_glass": "スティック",
-        "purple_stained_glass_pane": "スティック",
-        "blue_stained_glass": "スティック",
-        "blue_stained_glass_pane": "スティック",
-        "brown_stained_glass": "スティック",
-        "brown_stained_glass_pane": "スティック",
-        "green_stained_glass": "スティック",
-        "green_stained_glass_pane": "スティック",
-        "red_stained_glass": "スティック",
-        "red_stained_glass_pane": "スティック",
-        "black_stained_glass": "スティック",
-        "black_stained_glass_pane": "スティック",
 
         "stone": "バスドラム",
         "blackstone": "バスドラム",
@@ -274,25 +257,11 @@ const instruments = {
         "clay": "フルート",
         "honeycomb_block": "フルート",
         "monster_egg": "フルート",
+        "infested": "フルート",
 
         "packed_ice": "チャイム",
 
-        "black_wool": "ギター",
-        "blue_wool": "ギター",
-        "brown_wool": "ギター",
-        "cyan_wool": "ギター",
-        "gray_wool": "ギター",
-        "green_wool": "ギター",
-        "light_blue_wool": "ギター",
-        "light_gray_wool": "ギター",
-        "lime_wool": "ギター",
-        "magenta_wool": "ギター",
-        "orange_wool": "ギター",
-        "pink_wool": "ギター",
-        "purple_wool": "ギター",
-        "red_wool": "ギター",
-        "white_wool": "ギター",
-        "yellow_wool": "ギター",
+        "wool": "ギター",
 
         "bone_block": "木琴",
 
@@ -311,62 +280,43 @@ const instruments = {
     },
 
     english: {
+        "note_block": "Bass",
+        "bookshelf": "Bass",
+        "oak": "Bass",
+        "spruce": "Bass",
+        "birch": "Bass",
+        "jungle": "Bass",
+        "acacia": "Bass",
+        "dark_oak": "Bass",
+        "cherry": "Bass",
+        "bamboo": "Bass",
+        "crimson": "Bass",
+        "warped": "Bass",
+        "mangrove": "Bass",
+        "chest": "Bass",
+        "crafting_table": "Bass",
+        "jukebox": "Bass",
+        "mushroom": "Bass",
+        "banner": "Bass",
+        "daylight_detector": "Bass",
+        "loom": "Bass",
+        "barrel": "Bass",
+        "cartography_table": "Bass",
+        "lectern": "Bass",
+        "smithing_table": "Bass",
+        "fletching_table": "Bass",
+        "campfire": "Bass",
+        "composter": "Bass",
+        "bee_nest": "Bass",
+        "beehive": "Bass",
+
+        "concrete_powder": "Snare Drum",
         "sand": "Snare Drum",
         "gravel": "Snare Drum",
-        "sand": "Snare Drum",
-        "red_concrete_powder": "Snare Drum",
-        "black_concrete_powder": "Snare Drum",
-        "green_concrete_powder": "Snare Drum",
-        "brown_concrete_powder": "Snare Drum",
-        "blue_concrete_powder": "Snare Drum",
-        "purple_concrete_powder": "Snare Drum",
-        "cyan_concrete_powder": "Snare Drum",
-        "light_gray_concrete_powder": "Snare Drum",
-        "gray_concrete_powder": "Snare Drum",
-        "pink_concrete_powder": "Snare Drum",
-        "lime_concrete_powder": "Snare Drum",
-        "yellow_concrete_powder": "Snare Drum",
-        "light_blue_concrete_powder": "Snare Drum",
-        "magenta_concrete_powder": "Snare Drum",
-        "orange_concrete_powder": "Snare Drum",
-        "white_concrete_powder": "Snare Drum",
 
+        "glass": "Clicks and Sticks",
         "sea_lantern": "Clicks and Sticks",
         "beacon": "Clicks and Sticks",
-        "glass": "Clicks and Sticks",
-        "glass_pane": "Clicks and Sticks",
-        "white_stained_glass": "Clicks and Sticks",
-        "white_stained_glass_pane": "Clicks and Sticks",
-        "orange_stained_glass": "Clicks and Sticks",
-        "orange_stained_glass_pane": "Clicks and Sticks",
-        "magenta_stained_glass": "Clicks and Sticks",
-        "magenta_stained_glass_pane": "Clicks and Sticks",
-        "light_blue_stained_glass": "Clicks and Sticks",
-        "light_blue_stained_glass_pane": "Clicks and Sticks",
-        "yellow_stained_glass": "Clicks and Sticks",
-        "yellow_stained_glass_pane": "Clicks and Sticks",
-        "lime_stained_glass": "Clicks and Sticks",
-        "lime_stained_glass_pane": "Clicks and Sticks",
-        "pink_stained_glass": "Clicks and Sticks",
-        "pink_stained_glass_pane": "Clicks and Sticks",
-        "gray_stained_glass": "Clicks and Sticks",
-        "gray_stained_glass_pane": "Clicks and Sticks",
-        "light_gray_stained_glass": "Clicks and Sticks",
-        "light_gray_stained_glass_pane": "Clicks and Sticks",
-        "cyan_stained_glass": "Clicks and Sticks",
-        "cyan_stained_glass_pane": "Clicks and Sticks",
-        "purple_stained_glass": "Clicks and Sticks",
-        "purple_stained_glass_pane": "Clicks and Sticks",
-        "blue_stained_glass": "Clicks and Sticks",
-        "blue_stained_glass_pane": "Clicks and Sticks",
-        "brown_stained_glass": "Clicks and Sticks",
-        "brown_stained_glass_pane": "Clicks and Sticks",
-        "green_stained_glass": "Clicks and Sticks",
-        "green_stained_glass_pane": "Clicks and Sticks",
-        "red_stained_glass": "Clicks and Sticks",
-        "red_stained_glass_pane": "Clicks and Sticks",
-        "black_stained_glass": "Clicks and Sticks",
-        "black_stained_glass_pane": "Clicks and Sticks",
 
         "stone": "Bass Drum",
         "blackstone": "Bass Drum",
@@ -469,25 +419,11 @@ const instruments = {
         "clay": "Flute",
         "honeycomb_block": "Flute",
         "monster_egg": "Flute",
+        "infested": "Flute",
 
         "packed_ice": "Chimes",
 
-        "black_wool": "Guitar",
-        "blue_wool": "Guitar",
-        "brown_wool": "Guitar",
-        "cyan_wool": "Guitar",
-        "gray_wool": "Guitar",
-        "green_wool": "Guitar",
-        "light_blue_wool": "Guitar",
-        "light_gray_wool": "Guitar",
-        "lime_wool": "Guitar",
-        "magenta_wool": "Guitar",
-        "orange_wool": "Guitar",
-        "pink_wool": "Guitar",
-        "purple_wool": "Guitar",
-        "red_wool": "Guitar",
-        "white_wool": "Guitar",
-        "yellow_wool": "Guitar",
+        "wool": "Guitar",
 
         "bone_block": "Xylophone",
 
@@ -502,7 +438,7 @@ const instruments = {
 
         "hay_block": "Banjo",
 
-        "glow_stone": "Pling",
+        "glow_stone": "Pling"
     }
 
 }
@@ -510,48 +446,57 @@ const instruments = {
 
 world.beforeEvents.itemUseOn.subscribe(e => {
     const { source, itemStack, block } = e;
-
-    if (itemStack.typeId == "note:note_stick" && block.typeId == "minecraft:noteblock") {
-        if (source.isSneaking) {
-            e.cancel = true;
-        }
-        const blocklocation = block.location;
-        system.run(() => {
-            overworld.runCommandAsync(`structure load __noteblocks ${blocklocation.x} 319 ${blocklocation.z}`);
-            system.run(() => {
-                const chestInv = overworld.getBlock({ x: blocklocation.x, y: 319, z: blocklocation.z }).getComponent("minecraft:inventory").container;
-                chestInv.addItem(block.getItemStack(1, true));
-                for (let i = 0; i < chestInv.size; i++) {
-                    const item = chestInv.getSlot(i);
-                    if (1 < item.amount) {
-                        let instrument;
-                        if (source.getDynamicProperty("show_instrument")) { //音の種類を取得
-                            const block = overworld.getBlock({ x: blocklocation.x, y: blocklocation.y - 1, z: blocklocation.z });
-                            instrument = instruments[source.getDynamicProperty("language") === 0 ? "english" : "japanese"][block.typeId.replace("minecraft:", "")];
-                            if (instrument == undefined) {
-                                instrument = source.getDynamicProperty("language") === 0 ? "piano" : "ピアノ";
-                            }
-                        }
-                        if (source.getDynamicProperty("language") == 0) { //言語を分ける
-                            if (source.getDynamicProperty("scale_notation") == 1) { //形式が国際式か
-                                source.onScreenDisplay.setActionBar(`scale: ${scales.international[i]} ${source.getDynamicProperty("show_click_count") ? `click: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " instrument: " + instrument : ""}`);
-                            } else {
-                                source.onScreenDisplay.setActionBar(`scale: ${scales.solfege.english[i]} ${source.getDynamicProperty("show_click_count") ? `click: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " instrument: " + instrument : ""}`);
-                            }
-                        } else {
-                            if (source.getDynamicProperty("scale_notation") == 1) {
-                                source.onScreenDisplay.setActionBar(`音階: ${scales.solfege.japanese[i]} ${source.getDynamicProperty("show_click_count") ? `クリック: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " 楽器: " + instrument : ""}`);
-                            } else {
-                                source.onScreenDisplay.setActionBar(`音階: ${scales.international[i]} ${source.getDynamicProperty("show_click_count") ? `クリック: ${i}` : ""} ${source.getDynamicProperty("show_instrument") ? " 楽器: " + instrument : ""}`);
-                            }
-                        }
-                        break;
-                    }
-                }
-                overworld.runCommandAsync(`setblock ${blocklocation.x} 319 ${blocklocation.z} air`);
-            })
-        })
+    const lang = source.getDynamicProperty("language");
+    const JAPANESE = 1;
+    const ENGLISH = 0;
+    const INTERNATIONAL = 1;
+    const SOLFEGE = 0;
+    const scaleNotation = source.getDynamicProperty("scale_notation");
+    const showClick = source.getDynamicProperty("show_click_count");
+    const showInstrument = source.getDynamicProperty("show_instrument");
+    const noteStick = "note:note_stick";
+    const noteBlock = "minecraft:noteblock";
+    if (!(itemStack.typeId == noteStick && block.typeId == noteBlock)) return; //すぐに返す
+    if (source.isSneaking) {
+        e.cancel = true;
     }
+    overworld.runCommandAsync(`structure load __noteblocks ${block.location.x} -40 ${block.location.z}`);
+    system.run(() => {
+        const chestInv = overworld.getBlock({ x: block.location.x, y: -40, z: block.location.z }).getComponent("minecraft:inventory").container;
+        chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
+        for (let i = 0; i < chestInv.size; i++) {
+            const slot = chestInv.getSlot(i);
+            if (1 < slot.amount) { //アイテムが二個あるスロットを確認
+                const clickCount = i;
+
+                let resultMsg;
+                //音階を表示
+                resultMsg = lang == ENGLISH ? "scale: " : "音階: ";
+                resultMsg += scaleNotation == INTERNATIONAL ? scales.international[clickCount] : scales.solfege[lang == ENGLISH ? "english" : "japanese"][clickCount];
+                //クリック回数を表示
+                resultMsg += showClick ? lang == ENGLISH ? " click: " + clickCount : " クリック: " + clickCount : "";
+                //楽器を表示
+                if (showInstrument) {
+                    let instrument;
+                    const underblock = overworld.getBlock({ x: block.location.x, y: block.location.y - 1, z: block.location.z });
+                    const keys = Object.keys(instruments2?.[lang == ENGLISH ? "english" : "japanese"])
+                    for (const key of keys) {
+                        if (underblock.typeId.includes(key)) {
+                            instrument = instruments2?.[lang == ENGLISH ? "english" : "japanese"][key];
+                            break;
+                        }
+                    }
+                    if (!instrument) { //楽器が見つからなかったときの処理
+                        instrument = lang == ENGLISH ? "piano" : "ピアノ"
+                    }
+                    resultMsg += lang == ENGLISH ? " instrument: " + instrument : " 楽器: " + instrument;
+                }
+                source.onScreenDisplay.setActionBar(resultMsg);
+                break;
+            }
+        }
+        overworld.runCommandAsync(`setblock ${block.location.x} -40 ${block.location.z} air`);
+    })
 })
 
 system.afterEvents.scriptEventReceive.subscribe(e => {
