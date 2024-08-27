@@ -460,9 +460,9 @@ world.beforeEvents.itemUseOn.subscribe(e => {
     if (source.isSneaking) {
         e.cancel = true;
     }
-    overworld.runCommandAsync(`structure load __noteblocks ${block.location.x} -40 ${block.location.z}`);
+    source.runCommandAsync(`structure load __noteblocks ${block.location.x} -40 ${block.location.z}`);
     system.run(() => {
-        const chestInv = overworld.getBlock({ x: block.location.x, y: -40, z: block.location.z }).getComponent("minecraft:inventory").container;
+        const chestInv = source.dimension.getBlock({ x: block.location.x, y: 319, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
         for (let i = 0; i < chestInv.size; i++) {
             const slot = chestInv.getSlot(i);
@@ -478,7 +478,7 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 //楽器を表示
                 if (showInstrument) {
                     let instrument;
-                    const underblock = overworld.getBlock({ x: block.location.x, y: block.location.y - 1, z: block.location.z });
+                    const underblock = source.dimension.getBlock({ x: block.location.x, y: block.location.y - 1, z: block.location.z });
                     const keys = Object.keys(instruments2?.[lang == ENGLISH ? "english" : "japanese"])
                     for (const key of keys) {
                         if (underblock.typeId.includes(key)) {
@@ -495,7 +495,7 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 break;
             }
         }
-        overworld.runCommandAsync(`setblock ${block.location.x} -40 ${block.location.z} air`);
+        source.dimension.runCommandAsync(`setblock ${block.location.x} 319 ${block.location.z} air`);
     })
 })
 
