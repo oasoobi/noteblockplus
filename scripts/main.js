@@ -497,6 +497,7 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 break;
             }
         }
+        //ブロックをもとに戻す
         const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z });
         block.dimension.fillBlocks(volume, "minecraft:air");
         block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).setPermutation(permutation);
