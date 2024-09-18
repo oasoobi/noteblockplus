@@ -461,10 +461,10 @@ world.beforeEvents.itemUseOn.subscribe(e => {
     if (source.isSneaking) {
         e.cancel = true;
     }
-    const permutation = overworld.getBlock({ x: block.location.x, y: -56, z: block.location.z }).permutation;
-    overworld.runCommandAsync(`structure load __noteblocks ${block.location.x} -56 ${block.location.z}`);
+    const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).permutation;
+    block.dimension.runCommandAsync(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max -1} ${block.location.z}`);
     system.run(() => {
-        const chestInv = overworld.getBlock({ x: block.location.x, y: -56, z: block.location.z }).getComponent("minecraft:inventory").container;
+        const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
         for (let i = 0; i < chestInv.size; i++) {
             const slot = chestInv.getSlot(i);
@@ -480,7 +480,7 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 //楽器を表示
                 if (showInstrument) {
                     let instrument;
-                    const underblock = overworld.getBlock({ x: block.location.x, y: block.location.y - 1, z: block.location.z });
+                    const underblock = source.dimension.getBlock({ x: block.location.x, y: block.location.y - 1, z: block.location.z });
                     const keys = Object.keys(instruments2?.[lang == ENGLISH ? "english" : "japanese"])
                     for (const key of keys) {
                         if (underblock.typeId.includes(key)) {
@@ -497,11 +497,12 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 break;
             }
         }
-        const volume = new BlockVolume({ x: block.location.x, y: -56, z: block.location.z},{ x: block.location.x, y: -56, z: block.location.z });
-        overworld.fillBlocks(volume, "minecraft:air");
-        overworld.getBlock({ x: block.location.x, y: -56, z: block.location.z }).setPermutation(permutation);
+        const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z });
+        block.dimension.fillBlocks(volume, "minecraft:air");
+        block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).setPermutation(permutation);
     })
 })
+
 
 system.afterEvents.scriptEventReceive.subscribe(e => {
     const { id, sourceEntity } = e;
