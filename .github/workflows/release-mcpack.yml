@@ -3,21 +3,24 @@ name: Build and Release MCPACK
 on:
   push:
     branches:
-        - main
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # リポジトリをチェックアウト
+      - name: Checkout code
         uses: actions/checkout@v4
 
+      # 不要なファイルを除いてファイルをコピー
       - name: Clean up unnecessary files
         run: |
-            mkdir -p build
-            rsync -av --exclude='build' --exclude='.git/' --exclude='.github/' --exclude='.gitignore' --exclude='README.md' --exclude='package-lock.json' --exclude='package.json' --exclude='readme-en.md' --exclude='versions.json' ./ build/
-
+          mkdir -p build
+          rsync -av --exclude='build' --exclude='.git/' --exclude='.github/' --exclude='.gitignore' --exclude='README.md' --exclude='package-lock.json' --exclude='package.json' --exclude='readme-en.md' --exclude='versions.json' ./ build/
+          
+      # MCPACKファイルを生成 (ZIP圧縮)
       - name: Create MCPACK
         run: |
           cd build
@@ -27,7 +30,7 @@ jobs:
       # GitHubリリースにアップロード
       - name: Create GitHub Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@latest
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
