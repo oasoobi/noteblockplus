@@ -16,14 +16,7 @@ jobs:
       - name: Clean up unnecessary files
         run: |
             mkdir -p build
-            cp -r * build/
-            rm -rf build/.github/
-            rm -rf build/.gitignore
-            rm -rf build/README.md
-            rm -rf build/package-lock.json
-            rm -rf build/package.json
-            rm -rf readme-en.md
-            rm -rf versions.json
+            rsync -av --exclude='build' --exclude='.git/' --exclude='.github/' --exclude='.gitignore' --exclude='README.md' --exclude='package-lock.json' --exclude='package.json' --exclude='readme-en.md' --exclude='versions.json' ./ build/
 
       - name: Create MCPACK
         run: |
