@@ -2,32 +2,33 @@ name: Build and Release MCPACK
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+        - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Clean up unnecessary files
         run: |
             mkdir -p build
-            cp -r /* pack/
-            cp -rf packs/.gitignore
-            cp -rf packs/README.md
-            cp -rf packs/package-lock.json
-            cp -rf packs/package.json
-            cp -rf readme-en.md
-            cp -rf versions.json
+            cp -r * build/
+            rm -rf build/.github/
+            rm -rf build/.gitignore
+            rm -rf build/README.md
+            rm -rf build/package-lock.json
+            rm -rf build/package.json
+            rm -rf readme-en.md
+            rm -rf versions.json
 
       - name: Create MCPACK
         run: |
           cd pack
-          zip -r ../my_behavior_pack.mcpack ./*
+          zip -r ../NoteBlockPlus.mcpack ./*
           cd ..
 
       # GitHubリリースにアップロード
@@ -45,6 +46,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./my_behavior_pack.mcpack
-          asset_name: my_behavior_pack.mcpack
+          asset_path: ./NoteBlockPlus.mcpack
+          asset_name: NoteBlockPlus.mcpack
           asset_content_type: application/zip
