@@ -20,7 +20,7 @@ jobs:
 
       - name: Create MCPACK
         run: |
-          cd pack
+          cd build
           zip -r ../NoteBlockPlus.mcpack ./*
           cd ..
 
