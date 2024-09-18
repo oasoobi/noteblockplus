@@ -1,4 +1,4 @@
-import { system, world } from "@minecraft/server";
+import { BlockVolume, system, world } from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 
 const overworld = world.getDimension("overworld");
@@ -23,6 +23,7 @@ world.afterEvents.playerSpawn.subscribe(e => {
         }
         if (e.player.getDynamicProperty("show_click_count") == undefined) {
             e.player.setDynamicProperty("show_click_count", DefaultConfig.show_click_count);
+            e.player.getComponent
         }
     }
 })
@@ -460,9 +461,10 @@ world.beforeEvents.itemUseOn.subscribe(e => {
     if (source.isSneaking) {
         e.cancel = true;
     }
-    overworld.runCommandAsync(`structure load __noteblocks ${block.location.x} -40 ${block.location.z}`);
+    const permutation = overworld.getBlock({ x: block.location.x, y: -56, z: block.location.z }).permutation;
+    overworld.runCommandAsync(`structure load __noteblocks ${block.location.x} -56 ${block.location.z}`);
     system.run(() => {
-        const chestInv = overworld.getBlock({ x: block.location.x, y: -40, z: block.location.z }).getComponent("minecraft:inventory").container;
+        const chestInv = overworld.getBlock({ x: block.location.x, y: -56, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
         for (let i = 0; i < chestInv.size; i++) {
             const slot = chestInv.getSlot(i);
@@ -495,7 +497,9 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 break;
             }
         }
-        overworld.runCommandAsync(`setblock ${block.location.x} -40 ${block.location.z} air`);
+        const volume = new BlockVolume({ x: block.location.x, y: -56, z: block.location.z},{ x: block.location.x, y: -56, z: block.location.z });
+        overworld.fillBlocks(volume, "minecraft:air");
+        overworld.getBlock({ x: block.location.x, y: -56, z: block.location.z }).setPermutation(permutation);
     })
 })
 
