@@ -1,7 +1,7 @@
 {
 	"format_version": 2,
 	"header": {
-		"name": "Note Block+",
+		"name": "Note Block+ v1.1.2",
 		"description": "音ブロックの音階を表示します。",
 		"min_engine_version": [
 			1,
