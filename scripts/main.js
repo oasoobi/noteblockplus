@@ -23,7 +23,6 @@ world.afterEvents.playerSpawn.subscribe(e => {
         }
         if (e.player.getDynamicProperty("show_click_count") == undefined) {
             e.player.setDynamicProperty("show_click_count", DefaultConfig.show_click_count);
-            e.player.getComponent
         }
     }
 })
@@ -118,6 +117,7 @@ const scales = {
 const instruments2 = {
     japanese: {
 
+        "_leaves": "ピアノ",
         "note_block": "バス",
         "bookshelf": "バス",
         "oak": "バス",
@@ -148,7 +148,9 @@ const instruments2 = {
         "bee_nest": "バス",
         "beehive": "バス",
 
+        "amethyst_block": "バスドラム",
 
+        "soul_sand": "カウベル",
         "concrete_powder": "スネアドラム",
         "sand": "スネアドラム",
         "gravel": "スネアドラム",
@@ -156,6 +158,10 @@ const instruments2 = {
         "glass": "スティック",
         "sea_lantern": "スティック",
         "beacon": "スティック",
+
+        "infested_": "フルート",
+
+        "glowstone": "電子ピアノ",
 
         "stone": "バスドラム",
         "blackstone": "バスドラム",
@@ -185,6 +191,7 @@ const instruments2 = {
         "deepslate_gold_ore": "バスドラム",
         "deepslate_coal_ore": "バスドラム",
         "deepslate_copper_ore": "バスドラム",
+        "raw_copper_block": "バスドラム", //added
         "deepslate_lapis_ore": "バスドラム",
         "deepslate_emerald_ore": "バスドラム",
         "deepslate_redstone_ore": "バスドラム",
@@ -253,6 +260,7 @@ const instruments2 = {
         "red_concrete": "バスドラム",
         "black_concrete": "バスドラム",
 
+        "raw_gold_block": "バスドラム",
         "gold_block": "ベル(グロッケンシュピール)",
 
         "clay": "フルート",
@@ -266,21 +274,22 @@ const instruments2 = {
 
         "bone_block": "木琴",
 
+        "raw_iron_block": "バスドラム",
         "iron_block": "鉄琴",
-
-        "soul_sand": "カウベル",
-
+        
+        "lit_pumpkin": "ピアノ",
+        "carved_pumpkin": "ピアノ",
         "pumpkin": "ディジュリドゥ",
-        "carved_pumpkin": "ディジュリドゥ",
 
         "emerald_block": "電子音",
 
         "hay_block": "バンジョー",
 
-        "glow_stone": "電子ピアノ",
     },
 
     english: {
+        "_leaves": "piano",
+
         "note_block": "Bass",
         "bookshelf": "Bass",
         "oak": "Bass",
@@ -310,15 +319,23 @@ const instruments2 = {
         "composter": "Bass",
         "bee_nest": "Bass",
         "beehive": "Bass",
-
+    
+        "amethyst_block": "Bass Durm",
+    
+        "soul_sand": "Cow Bell",
+    
         "concrete_powder": "Snare Drum",
         "sand": "Snare Drum",
         "gravel": "Snare Drum",
-
+    
         "glass": "Clicks and Sticks",
         "sea_lantern": "Clicks and Sticks",
         "beacon": "Clicks and Sticks",
-
+    
+        "infested_": "Flute",
+    
+        "glow_stone": "Pling",
+    
         "stone": "Bass Drum",
         "blackstone": "Bass Drum",
         "netherrack": "Bass Drum",
@@ -347,6 +364,7 @@ const instruments2 = {
         "deepslate_gold_ore": "Bass Drum",
         "deepslate_coal_ore": "Bass Drum",
         "deepslate_copper_ore": "Bass Drum",
+        "raw_copper_block": "Bass Drum",
         "deepslate_lapis_ore": "Bass Drum",
         "deepslate_emerald_ore": "Bass Drum",
         "deepslate_redstone_ore": "Bass Drum",
@@ -414,14 +432,15 @@ const instruments2 = {
         "green_concrete": "Bass Drum",
         "red_concrete": "Bass Drum",
         "black_concrete": "Bass Drum",
-
+    
+        "raw_gold_block": "Bass Drum",
         "gold_block": "Bells",
-
+    
         "clay": "Flute",
         "honeycomb_block": "Flute",
         "monster_egg": "Flute",
         "infested": "Flute",
-
+    
         "packed_ice": "Chimes",
 
         "wool": "Guitar",
@@ -429,19 +448,16 @@ const instruments2 = {
         "bone_block": "Xylophone",
 
         "iron_block": "Iron Xylophone",
-
-        "soul_sand": "Cow Bell",
+    
+        "lit_pumpkin": "Piano",
+        "carved_pumpkin": "Piano",
 
         "pumpkin": "Didgeridoo",
-        "carved_pumpkin": "Didgeridoo",
-
+        
         "emerald_block": "Bit",
 
-        "hay_block": "Banjo",
-
-        "glow_stone": "Pling"
+        "hay_block": "Banjo"
     }
-
 }
 
 
@@ -531,7 +547,15 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                         sourceEntity.setDynamicProperty("show_instrument", res.formValues[2])
                         sourceEntity.setDynamicProperty("show_click_count", res.formValues[3])
                     }
-                    sourceEntity.sendMessage("§e設定を変更しました。");
+                    
+                    system.run(() => {
+                        sourceEntity.getDynamicProperty("language");
+                        if (sourceEntity.getDynamicProperty("language") == 1) {
+                            sourceEntity.sendMessage("§e設定を変更しました。");
+                        } else {
+                            sourceEntity.sendMessage("§eThe settings have been changed.");
+                        }
+                    })
                 })
         } else {
             new ModalFormData()
@@ -556,8 +580,17 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                         sourceEntity.setDynamicProperty("show_instrument", res.formValues[2])
                         sourceEntity.setDynamicProperty("show_click_count", res.formValues[3])
                     }
-                    sourceEntity.sendMessage("§eThe settings have been changed.");
+
+                    system.run(() => {
+                        sourceEntity.getDynamicProperty("language");
+                        if (sourceEntity.getDynamicProperty("language") == 1) {
+                            sourceEntity.sendMessage("§e設定を変更しました。");
+                        } else {
+                            sourceEntity.sendMessage("§eThe settings have been changed.");
+                        }
+                    })
                 })
         }
+
     }
 })
