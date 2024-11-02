@@ -1,7 +1,5 @@
-import { BlockVolume, system, world } from "@minecraft/server";
-import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
-
-const overworld = world.getDimension("overworld");
+import { BlockVolume, Player, system, world } from "@minecraft/server";
+import { ModalFormData } from "@minecraft/server-ui";
 
 const DefaultConfig = {
     scale_notation: 1,
@@ -114,28 +112,30 @@ const scales = {
     }
 }
 
-const instruments2 = {
+const instruments = {
     japanese: {
-
-        "_leaves": "ピアノ",
+        "lit_pumpkin": "ピアノ", //上書き回避用
+        "carved_pumpkin": "ピアノ", //上書き回避用
+        "redstone_block": "ピアノ", //上書き回避用
+        "_leaves": "ピアノ", //葉系
         "note_block": "バス",
         "bookshelf": "バス",
-        "oak": "バス",
-        "spruce": "バス",
-        "birch": "バス",
-        "jungle": "バス",
-        "acacia": "バス",
-        "dark_oak": "バス",
-        "cherry": "バス",
-        "bamboo": "バス",
-        "crimson": "バス",
-        "warped": "バス",
-        "mangrove": "バス",
-        "chest": "バス",
+        "oak": "バス", //オークの木材系
+        "spruce": "バス", //トウヒ系
+        "birch": "バス", //樺系
+        "jungle": "バス", //ジャングル系
+        "acacia": "バス", //アカシア系
+        "dark_oak": "バス", //ダークオーク系
+        "cherry": "バス", //桜系
+        "bamboo": "バス", //竹系
+        "crimson": "バス", //クリムゾン系
+        "warped": "バス", //歪んだ系
+        "mangrove": "バス", //マングローブ系
+        "chest": "バス", //チェスト系
         "crafting_table": "バス",
         "jukebox": "バス",
-        "mushroom": "バス",
-        "banner": "バス",
+        "mushroom": "バス", //キノコ系
+        "banner": "バス", //旗系
         "daylight_detector": "バス",
         "loom": "バス",
         "barrel": "バス",
@@ -143,153 +143,65 @@ const instruments2 = {
         "lectern": "バス",
         "smithing_table": "バス",
         "fletching_table": "バス",
-        "campfire": "バス",
+        "campfire": "バス", //焚き火系
         "composter": "バス",
         "bee_nest": "バス",
         "beehive": "バス",
-
-        "amethyst_block": "バスドラム",
-
+        "amethyst_block": "バスドラム", //アメジスト系
         "soul_sand": "カウベル",
-        "concrete_powder": "スネアドラム",
-        "sand": "スネアドラム",
-        "gravel": "スネアドラム",
-
-        "glass": "スティック",
+        "glass": "スティック", //ガラス系
         "sea_lantern": "スティック",
         "beacon": "スティック",
-
-        "infested_": "フルート",
-
+        "infested_": "フルート", //虫食いブロック系
         "glowstone": "電子ピアノ",
-
-        "stone": "バスドラム",
-        "blackstone": "バスドラム",
+        "stone": "バスドラム", //石系
+        "andesite": "バスドラム", //安山岩系
+        "granite": "バスドラム", //花崗岩系
+        "diorite": "バスドラム", //閃緑岩系
+        "basalt": "バスドラム", //玄武岩系
+        "calcite": "バスドラム",
+        "purpur": "バスドラム", //プルプァ系
+        "terracotta": "バスドラム", //色付き、彩釉テラコッタ系
+        "quartz": "バスドラム", //クォーツブロック系
+        "tuff": "バスドラム", //凝灰岩系
+        "blackstone": "バスドラム", //ブラックストーン系
         "netherrack": "バスドラム",
-        "crimson_nylium": "バスドラム",
-        "warped_nylium": "バスドラム",
-        "obsidian": "バスドラム",
-        "quartz_block": "バスドラム",
-        "quartz_bricks": "バスドラム",
-        "quartz_ore": "バスドラム",
-        "sandstone": "バスドラム",
-        "sandstone_stairs": "バスドラム",
-        "smooth_sandstone_stairs": "バスドラム",
-        "red_sandstone": "バスドラム",
-        "red_sandstone_stairs": "バスドラム",
-        "smooth_red_sandstone_stairs": "バスドラム",
-        "diamond_ore": "バスドラム",
-        "iron_ore": "バスドラム",
-        "gold_ore": "バスドラム",
-        "coal_ore": "バスドラム",
-        "copper_ore": "バスドラム",
-        "lapis_ore": "バスドラム",
-        "emerald_ore": "バスドラム",
-        "redstone_ore": "バスドラム",
-        "deepslate_diamond_ore": "バスドラム",
-        "deepslate_iron_ore": "バスドラム",
-        "deepslate_gold_ore": "バスドラム",
-        "deepslate_coal_ore": "バスドラム",
-        "deepslate_copper_ore": "バスドラム",
-        "raw_copper_block": "バスドラム", //added
-        "deepslate_lapis_ore": "バスドラム",
-        "deepslate_emerald_ore": "バスドラム",
-        "deepslate_redstone_ore": "バスドラム",
-        "nether_gold_ore": "バスドラム",
-        "brick_block": "バスドラム",
-        "brick_block_stairs": "バスドラム",
-        "chiseled_nether_bricks": "バスドラム",
-        "cracked_deepslate_bricks": "バスドラム",
-        "cracked_nether_bricks": "バスドラム",
-        "cracked_polished_blackstone_bricks": "バスドラム",
-        "deepslate_brick_slab": "バスドラム",
-        "deepslate_brick_stairs": "バスドラム",
-        "deepslate_brick_wall": "バスドラム",
-        "deepslate_bricks": "バスドラム",
-        "end_bricks_stairs": "バスドラム",
-        "end_bricks": "バスドラム",
-        "mossy_stone_brick_stairs": "バスドラム",
-        "mud_brick_slab": "バスドラム",
-        "mud_brick_stairs": "バスドラム",
-        "mud_brick_wall": "バスドラム",
-        "mud_bricks": "バスドラム",
-        "nether_brick": "バスドラム",
-        "nether_brick_fence": "バスドラム",
-        "nether_brick_stairs": "バスドラム",
-        "polished_blackstone_brick_slab": "バスドラム",
-        "polished_blackstone_brick_stairs": "バスドラム",
-        "polished_blackstone_brick_wall": "バスドラム",
-        "polished_blackstone_bricks": "バスドラム",
-        "prismarine_bricks_stairs": "バスドラム",
-        "prismarine": "バスドラム",
-        "prismarine_stairs": "バスドラム",
-        "dark_prismarine_stairs": "バスドラム",
-        "red_nether_brick": "バスドラム",
-        "red_nether_brick_stairs": "バスドラム",
-        "stone_brick_stairs": "バスドラム",
-        "stone_brick": "バスドラム",
-        "tube_coral": "バスドラム",
-        "brain_coral": "バスドラム",
-        "bubble_coral": "バスドラム",
-        "fire_coral": "バスドラム",
-        "horn_coral": "バスドラム",
-        "dead_tube_coral": "バスドラム",
-        "dead_brain_coral": "バスドラム",
-        "dead_bubble_coral": "バスドラム",
-        "dead_fire_coral": "バスドラム",
-        "dead_horn_coral": "バスドラム",
-        "coral_block": "バスドラム",
+        "nylium": "バスドラム", //ナイリウム系
+        "obsidian": "バスドラム", //黒曜石系
+        "sandstone": "バスドラム", //砂岩系
+        "_ore": "バスドラム", //鉱石系
+        "deepslate": "バスドラム", //深層岩系
+        "clay": "バスドラム",
+        "raw_": "バスドラム", //原石ブロック系
+        "brick": "バスドラム", //レンガ系
+        "prismarine": "バスドラム", //プリズマリン系
+        "coral": "バスドラム", //サンゴ系
         "respawn_anchor": "バスドラム",
         "bedrock": "バスドラム",
         "observer": "バスドラム",
         "monster_spawner": "バスドラム",
-        "white_concrete": "バスドラム",
-        "orange_concrete": "バスドラム",
-        "magenta_concrete": "バスドラム",
-        "light_blue_concrete": "バスドラム",
-        "yellow_concrete": "バスドラム",
-        "lime_concrete": "バスドラム",
-        "pink_concrete": "バスドラム",
-        "gray_concrete": "バスドラム",
-        "light_gray_concrete": "バスドラム",
-        "cyan_concrete": "バスドラム",
-        "purple_concrete": "バスドラム",
-        "blue_concrete": "バスドラム",
-        "brown_concrete": "バスドラム",
-        "green_concrete": "バスドラム",
-        "red_concrete": "バスドラム",
-        "black_concrete": "バスドラム",
-
-        "raw_gold_block": "バスドラム",
+        "concrete_powder": "スネアドラム", //コンクリートパウダー系 powderの優先度を上げる
+        "concrete": "バスドラム", //コンクリート系
         "gold_block": "ベル(グロッケンシュピール)",
-
-        "clay": "フルート",
         "honeycomb_block": "フルート",
         "monster_egg": "フルート",
         "infested": "フルート",
-
         "packed_ice": "チャイム",
-
         "wool": "ギター",
-
         "bone_block": "木琴",
-
-        "raw_iron_block": "バスドラム",
         "iron_block": "鉄琴",
-        
-        "lit_pumpkin": "ピアノ",
-        "carved_pumpkin": "ピアノ",
         "pumpkin": "ディジュリドゥ",
-
         "emerald_block": "電子音",
-
         "hay_block": "バンジョー",
-
+        "sand": "スネアドラム", //砂、赤砂、怪しげな砂
+        "gravel": "スネアドラム", //砂利、怪しげな砂利
     },
 
     english: {
-        "_leaves": "piano",
-
+        "lit_pumpkin": "Piano",
+        "carved_pumpkin": "Piano",
+        "redstone_block": "Piano",
+        "_leaves": "Piano",
         "note_block": "Bass",
         "bookshelf": "Bass",
         "oak": "Bass",
@@ -319,144 +231,54 @@ const instruments2 = {
         "composter": "Bass",
         "bee_nest": "Bass",
         "beehive": "Bass",
-    
-        "amethyst_block": "Bass Durm",
-    
+        "amethyst_block": "Bass Drum",
         "soul_sand": "Cow Bell",
-    
-        "concrete_powder": "Snare Drum",
-        "sand": "Snare Drum",
-        "gravel": "Snare Drum",
-    
         "glass": "Clicks and Sticks",
         "sea_lantern": "Clicks and Sticks",
         "beacon": "Clicks and Sticks",
-    
         "infested_": "Flute",
-    
-        "glow_stone": "Pling",
-    
+        "glowstone": "Pling Piano",
         "stone": "Bass Drum",
+        "andesite": "Bass Drum",
+        "granite": "Bass Drum",
+        "diorite": "Bass Drum",
+        "basalt": "Bass Drum",
+        "calcite": "Bass Drum",
+        "purpur": "Bass Drum",
+        "terracotta": "Bass Drum",
+        "quartz": "Bass Drum",
+        "tuff": "Bass Drum",
         "blackstone": "Bass Drum",
         "netherrack": "Bass Drum",
-        "crimson_nylium": "Bass Drum",
-        "warped_nylium": "Bass Drum",
+        "nylium": "Bass Drum",
         "obsidian": "Bass Drum",
-        "quartz_block": "Bass Drum",
-        "quartz_bricks": "Bass Drum",
-        "quartz_ore": "Bass Drum",
         "sandstone": "Bass Drum",
-        "sandstone_stairs": "Bass Drum",
-        "smooth_sandstone_stairs": "Bass Drum",
-        "red_sandstone": "Bass Drum",
-        "red_sandstone_stairs": "Bass Drum",
-        "smooth_red_sandstone_stairs": "Bass Drum",
-        "diamond_ore": "Bass Drum",
-        "iron_ore": "Bass Drum",
-        "gold_ore": "Bass Drum",
-        "coal_ore": "Bass Drum",
-        "copper_ore": "Bass Drum",
-        "lapis_ore": "Bass Drum",
-        "emerald_ore": "Bass Drum",
-        "redstone_ore": "Bass Drum",
-        "deepslate_diamond_ore": "Bass Drum",
-        "deepslate_iron_ore": "Bass Drum",
-        "deepslate_gold_ore": "Bass Drum",
-        "deepslate_coal_ore": "Bass Drum",
-        "deepslate_copper_ore": "Bass Drum",
-        "raw_copper_block": "Bass Drum",
-        "deepslate_lapis_ore": "Bass Drum",
-        "deepslate_emerald_ore": "Bass Drum",
-        "deepslate_redstone_ore": "Bass Drum",
-        "nether_gold_ore": "Bass Drum",
-        "brick_block": "Bass Drum",
-        "brick_block_stairs": "Bass Drum",
-        "chiseled_nether_bricks": "Bass Drum",
-        "cracked_deepslate_bricks": "Bass Drum",
-        "cracked_nether_bricks": "Bass Drum",
-        "cracked_polished_blackstone_bricks": "Bass Drum",
-        "deepslate_brick_slab": "Bass Drum",
-        "deepslate_brick_stairs": "Bass Drum",
-        "deepslate_brick_wall": "Bass Drum",
-        "deepslate_bricks": "Bass Drum",
-        "end_bricks_stairs": "Bass Drum",
-        "end_bricks": "Bass Drum",
-        "mossy_stone_brick_stairs": "Bass Drum",
-        "mud_brick_slab": "Bass Drum",
-        "mud_brick_stairs": "Bass Drum",
-        "mud_brick_wall": "Bass Drum",
-        "mud_bricks": "Bass Drum",
-        "nether_brick": "Bass Drum",
-        "nether_brick_fence": "Bass Drum",
-        "nether_brick_stairs": "Bass Drum",
-        "polished_blackstone_brick_slab": "Bass Drum",
-        "polished_blackstone_brick_stairs": "Bass Drum",
-        "polished_blackstone_brick_wall": "Bass Drum",
-        "polished_blackstone_bricks": "Bass Drum",
-        "prismarine_bricks_stairs": "Bass Drum",
+        "_ore": "Bass Drum",
+        "deepslate": "Bass Drum",
+        "clay": "Bass Drum",
+        "raw_": "Bass Drum",
+        "brick": "Bass Drum",
         "prismarine": "Bass Drum",
-        "prismarine_stairs": "Bass Drum",
-        "dark_prismarine_stairs": "Bass Drum",
-        "red_nether_brick": "Bass Drum",
-        "red_nether_brick_stairs": "Bass Drum",
-        "stone_brick_stairs": "Bass Drum",
-        "stone_brick": "Bass Drum",
-        "tube_coral": "Bass Drum",
-        "brain_coral": "Bass Drum",
-        "bubble_coral": "Bass Drum",
-        "fire_coral": "Bass Drum",
-        "horn_coral": "Bass Drum",
-        "dead_tube_coral": "Bass Drum",
-        "dead_brain_coral": "Bass Drum",
-        "dead_bubble_coral": "Bass Drum",
-        "dead_fire_coral": "Bass Drum",
-        "dead_horn_coral": "Bass Drum",
-        "coral_block": "Bass Drum",
+        "coral": "Bass Drum",
         "respawn_anchor": "Bass Drum",
         "bedrock": "Bass Drum",
         "observer": "Bass Drum",
         "monster_spawner": "Bass Drum",
-        "white_concrete": "Bass Drum",
-        "orange_concrete": "Bass Drum",
-        "magenta_concrete": "Bass Drum",
-        "light_blue_concrete": "Bass Drum",
-        "yellow_concrete": "Bass Drum",
-        "lime_concrete": "Bass Drum",
-        "pink_concrete": "Bass Drum",
-        "gray_concrete": "Bass Drum",
-        "light_gray_concrete": "Bass Drum",
-        "cyan_concrete": "Bass Drum",
-        "purple_concrete": "Bass Drum",
-        "blue_concrete": "Bass Drum",
-        "brown_concrete": "Bass Drum",
-        "green_concrete": "Bass Drum",
-        "red_concrete": "Bass Drum",
-        "black_concrete": "Bass Drum",
-    
-        "raw_gold_block": "Bass Drum",
+        "concrete_powder": "Snare Drum",
+        "concrete": "Bass Drum",
         "gold_block": "Bells",
-    
-        "clay": "Flute",
         "honeycomb_block": "Flute",
         "monster_egg": "Flute",
         "infested": "Flute",
-    
         "packed_ice": "Chimes",
-
         "wool": "Guitar",
-
         "bone_block": "Xylophone",
-
         "iron_block": "Iron Xylophone",
-    
-        "lit_pumpkin": "Piano",
-        "carved_pumpkin": "Piano",
-
         "pumpkin": "Didgeridoo",
-        
         "emerald_block": "Bit",
-
-        "hay_block": "Banjo"
+        "hay_block": "Banjo",
+        "sand": "Snare Drum",
+        "gravel": "Snare Drum"
     }
 }
 
@@ -464,23 +286,21 @@ const instruments2 = {
 world.beforeEvents.itemUseOn.subscribe(e => {
     const { source, itemStack, block } = e;
     const lang = source.getDynamicProperty("language");
-    const JAPANESE = 1;
     const ENGLISH = 0;
     const INTERNATIONAL = 1;
-    const SOLFEGE = 0;
     const scaleNotation = source.getDynamicProperty("scale_notation");
     const showClick = source.getDynamicProperty("show_click_count");
     const showInstrument = source.getDynamicProperty("show_instrument");
     const noteStick = "note:note_stick";
     const noteBlock = "minecraft:noteblock";
-    if (!(itemStack.typeId == noteStick && block.typeId == noteBlock)) return; //すぐに返す
+    if (!(itemStack.typeId == noteStick && block.typeId == noteBlock)) return;
     if (source.isSneaking) {
         e.cancel = true;
     }
-    const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).permutation;
-    block.dimension.runCommandAsync(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max -1} ${block.location.z}`);
+    const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
+    block.dimension.runCommandAsync(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max - 1} ${block.location.z}`);
     system.run(() => {
-        const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).getComponent("minecraft:inventory").container;
+        const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
         for (let i = 0; i < chestInv.size; i++) {
             const slot = chestInv.getSlot(i);
@@ -497,10 +317,10 @@ world.beforeEvents.itemUseOn.subscribe(e => {
                 if (showInstrument) {
                     let instrument;
                     const underblock = source.dimension.getBlock({ x: block.location.x, y: block.location.y - 1, z: block.location.z });
-                    const keys = Object.keys(instruments2?.[lang == ENGLISH ? "english" : "japanese"])
+                    const keys = Object.keys(instruments?.[lang == ENGLISH ? "english" : "japanese"])
                     for (const key of keys) {
                         if (underblock.typeId.includes(key)) {
-                            instrument = instruments2?.[lang == ENGLISH ? "english" : "japanese"][key];
+                            instrument = instruments?.[lang == ENGLISH ? "english" : "japanese"][key];
                             break;
                         }
                     }
@@ -514,9 +334,9 @@ world.beforeEvents.itemUseOn.subscribe(e => {
             }
         }
         //ブロックをもとに戻す
-        const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z });
+        const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
         block.dimension.fillBlocks(volume, "minecraft:air");
-        block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max -1, z: block.location.z }).setPermutation(permutation);
+        block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
     })
 })
 
@@ -536,10 +356,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
                     if (res.formValues[4]) {
-                        //デフォルトに戻す
-                        sourceEntity.setDynamicProperty("scale_notation", DefaultConfig.scale_notation);
-                        sourceEntity.setDynamicProperty("show_instrument", DefaultConfig.show_instrument);
-                        sourceEntity.setDynamicProperty("show_click_count", DefaultConfig.show_click_count);
+                        initializeConfig(sourceEntity);
                     } else {
                         //設定の変更
                         sourceEntity.setDynamicProperty("language", res.formValues[0]);
@@ -547,7 +364,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                         sourceEntity.setDynamicProperty("show_instrument", res.formValues[2])
                         sourceEntity.setDynamicProperty("show_click_count", res.formValues[3])
                     }
-                    
+
                     system.run(() => {
                         sourceEntity.getDynamicProperty("language");
                         if (sourceEntity.getDynamicProperty("language") == 1) {
@@ -569,12 +386,8 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
                     if (res.formValues[4]) {
-                        //デフォルトに戻す
-                        sourceEntity.setDynamicProperty("scale_notation", DefaultConfig.scale_notation);
-                        sourceEntity.setDynamicProperty("show_instrument", DefaultConfig.show_instrument);
-                        sourceEntity.setDynamicProperty("show_click_count", DefaultConfig.show_click_count);
+                        initializeConfig(sourceEntity);
                     } else {
-                        //設定の変更
                         sourceEntity.setDynamicProperty("language", res.formValues[0]);
                         sourceEntity.setDynamicProperty("scale_notation", res.formValues[1])
                         sourceEntity.setDynamicProperty("show_instrument", res.formValues[2])
@@ -594,3 +407,13 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
 
     }
 })
+
+/**
+ * 
+ * @param {Player} player 
+ */
+function initializeConfig(player) {
+    player.setDynamicProperty("scale_notation", DefaultConfig.scale_notation);
+    player.setDynamicProperty("show_instrument", DefaultConfig.show_instrument);
+    player.setDynamicProperty("show_click_count", DefaultConfig.show_click_count);    
+}
