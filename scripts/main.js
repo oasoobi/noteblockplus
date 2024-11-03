@@ -23,7 +23,7 @@ world.afterEvents.playerSpawn.subscribe(e => {
         e.player.setDynamicProperty("is_display_click_count", DefaultConfig.is_display_click_count);
     }
     if (e.player.getDynamicProperty("isEnable") == undefined) {
-        sourceEntity.setDynamicProperty("isEnable", true);
+        e.player.setDynamicProperty("isEnable", true);
     }
 })
 
