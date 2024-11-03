@@ -1,7 +1,7 @@
 {
 	"format_version": 2,
 	"header": {
-		"name": "Note Block+ v1.1.4",
+		"name": "Note Block+ v2.0.0",
 		"description": "音ブロックの音階を表示するアドオン。 \nTwitter:@oasoby",
 		"min_engine_version": [
 			1,
@@ -10,9 +10,9 @@
 		],
 		"uuid": "fc863469-2162-461d-8ba8-2691c9197deb",
 		"version": [
-			1,
-			1,
-			4
+			2,
+			0,
+			0
 		]
 	},
 	"modules": [

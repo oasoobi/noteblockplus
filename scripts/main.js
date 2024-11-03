@@ -375,7 +375,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
             sourceEntity.playSound("random.orb");
         })
     } else if (id == "note:version") {
-        sourceEntity.sendMessage("§eNoteBlock+のバージョンは 1.1.4 です。")
+        sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.0 です。");
     }
 })
 
