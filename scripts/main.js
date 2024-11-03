@@ -380,9 +380,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
         })
     } else if (id == "note:version") {
         if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.0 です。");
+            sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.1 です。");
         } else {
-            sourceEntity.sendMessage("§eNoteBlock+ is at version 2.0.0.");
+            sourceEntity.sendMessage("§eNoteBlock+ is at version 2.0.1.");
         }
     }
 })
