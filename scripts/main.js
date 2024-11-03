@@ -371,11 +371,19 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
     } else if (id == "note:toggle") {
         sourceEntity.setDynamicProperty("isEnable", !sourceEntity.getDynamicProperty("isEnable"));
         system.run(() => {
-            sourceEntity.sendMessage(`${sourceEntity.getDynamicProperty("isEnable") ? "§e音階表示を有効にしました。" : "§e音階表示を無効にしました。"}`);
+            if (sourceEntity.getDynamicProperty("language") == 1) {
+                sourceEntity.sendMessage(`${sourceEntity.getDynamicProperty("isEnable") ? "§e音階表示を有効にしました。" : "§e音階表示を無効にしました。"}`);
+            } else {
+                sourceEntity.sendMessage(`${sourceEntity.getDynamicProperty("isEnable") ? "§eThe scale display has been enabled." : "§eThe scale display has been disabled."}`);
+            }
             sourceEntity.playSound("random.orb");
         })
     } else if (id == "note:version") {
-        sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.0 です。");
+        if (sourceEntity.getDynamicProperty("language") == 1) {
+            sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.0 です。");
+        } else {
+            sourceEntity.sendMessage("§eNoteBlock+ is at version 2.0.0.");
+        }
     }
 })
 
