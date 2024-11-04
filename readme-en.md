@@ -5,7 +5,7 @@
 [Download the latest version](https://github.com/oasoobi/noteblockplus/releases/latest/download/noteblockplus.mcpack)
 
 
-## Caution:
+## Attention:
 When creating a world, the Beta APIs must be enabled before adding the add-on. Holiday Creator Futures must be enabled as well.
 ## How to use:
 
