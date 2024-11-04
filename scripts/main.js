@@ -1,4 +1,4 @@
-import { Block, BlockType, BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
+import { BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 
 const DefaultConfig = {
