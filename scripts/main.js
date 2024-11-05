@@ -210,7 +210,8 @@ const instruments = {
     "sandstone": "bass_drum", //砂岩系
     "_ore": "bass_drum", //鉱石系
     "deepslate": "bass_drum", //深層岩系
-    "clay": "bass_drum",
+    "hardened_clay": "bass_drum", //通常のテラコッタ
+    "clay": "flute", //粘土
     "raw_": "bass_drum", //原石ブロック系
     "brick": "bass_drum", //レンガ系
     "prismarine": "bass_drum", //プリズマリン系
@@ -288,7 +289,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
                         }
                     }
                     if (!instrument) { //楽器が見つからなかったときにピアノに
-                        instrument = lang == ENGLISH ? "piano" : "ピアノ"
+                        instrument = lang == ENGLISH ? "Piano" : "ピアノ"
                     }
                     resultMsg += lang == ENGLISH ? " instrument: " + instrument : " 楽器: " + instrument;
                 }
@@ -312,7 +313,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .title("設定")
                 .dropdown("\n言語", ["English", "日本語"], sourceEntity.getDynamicProperty("language"))
                 .dropdown("音階の表示形式", ["イタリア式(ドレミ)", "国際式(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
-                .toggle("楽器を表示する (Beta)", sourceEntity.getDynamicProperty("is_display_instrument"))
+                .toggle("楽器を表示する", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .toggle("デフォルトに戻す")
                 .submitButton("変更を適用")
@@ -342,7 +343,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .title("Settings")
                 .dropdown("\nLanguage", ["English", "日本語"], sourceEntity.getDynamicProperty("language"))
                 .dropdown("scale notation", ["solfege(do,re,mi)", "international(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
-                .toggle("Show instruments (Beta)", sourceEntity.getDynamicProperty("is_display_instrument"))
+                .toggle("Show instruments", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("Show number of clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .toggle("Restore settings")
                 .submitButton("Apply")
@@ -380,9 +381,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
         })
     } else if (id == "note:version") {
         if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.2 です。");
+            sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.3 です。");
         } else {
-            sourceEntity.sendMessage("§eNoteBlock+ is at version 2.0.2.");
+            sourceEntity.sendMessage("§eNoteBlock+ is at version 2.0.3.");
         }
     }
 })
