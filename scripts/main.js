@@ -342,9 +342,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
             new ModalFormData()
                 .title("Settings")
                 .dropdown("\nLanguage", ["English", "日本語"], sourceEntity.getDynamicProperty("language"))
-                .dropdown("scale notation", ["solfege(do,re,mi)", "international(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
-                .toggle("Show instruments", sourceEntity.getDynamicProperty("is_display_instrument"))
-                .toggle("Show number of clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
+                .dropdown("Scale notation", ["solfege(do,re,mi)", "international(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
+                .toggle("Display instruments", sourceEntity.getDynamicProperty("is_display_instrument"))
+                .toggle("Display clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .toggle("Restore settings")
                 .submitButton("Apply")
                 .show(sourceEntity).then(res => {
