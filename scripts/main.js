@@ -159,6 +159,8 @@ const instruments = {
     "_leaves": "piano", //葉系
     "noteblock": "bass",
     "bookshelf": "bass",
+    "creaking_heart": "bass", //クリーキングの心臓
+    "pale_oak": "bass", //ペールオーク系
     "oak": "bass", //オークの木材系
     "spruce": "bass", //トウヒ系
     "birch": "bass", //樺系
@@ -193,6 +195,7 @@ const instruments = {
     "beacon": "clicks_and_sticks",
     "infested_": "flute", //虫食いブロック系
     "glowstone": "pling_piano",
+    "end_portal_frame": "bass_drum",
     "stone": "bass_drum", //石系
     "andesite": "bass_drum", //安山岩系
     "granite": "bass_drum", //花崗岩系
@@ -226,6 +229,7 @@ const instruments = {
     "honeycomb_block": "flute",
     "monster_egg": "flute",
     "infested": "flute",
+    "resin": "flute", //レジン系
     "packed_ice": "chimes",
     "wool": "guitar",
     "bone_block": "xylophone",
