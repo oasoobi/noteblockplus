@@ -1,6 +1,6 @@
 import { BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import {Instruments, InstrumentsTranslateKey, Scales} from "./datalist.js";
+import { Instruments, InstrumentsTranslateKey, Scales, ntpVersion } from "./datalist.js";
 
 const DefaultConfig = {
     scale_notation: 1,
@@ -28,26 +28,32 @@ world.afterEvents.playerSpawn.subscribe(e => {
     }
 })
 
-world.beforeEvents.playerInteractWithBlock.subscribe(e => {
-    const { block, player, isFirstEvent, itemStack } = e;
+world.afterEvents.playerSpawn.subscribe(() => {
+    if (world.getAllPlayers().length < 2) {
+        world.sendMessage(`\n§l§eNoteblock+ ${ntpVersion} created by oasobi\n§r§p---------------------\nNoteBlockPlusが正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
+If this message no longer appears, please check for updates at https://go.oasoobi.net/NoteBlockPlus.\n§r`);
+    }
 
-    const lang = player.getDynamicProperty("language");
+})
+
+system.runInterval(() => {
     const ENGLISH = 0;
     const INTERNATIONAL = 1;
-    const scaleNotation = player.getDynamicProperty("scale_notation");
-    const isDisplayClick = player.getDynamicProperty("is_display_click_count");
-    const isDisplayInstrument = player.getDynamicProperty("is_display_instrument");
-    if (!(block.typeId == "minecraft:noteblock" && isFirstEvent) || !player.getDynamicProperty("isEnable")) return;
-    if (player.isSneaking) {
-        if (itemStack !== undefined && BlockTypes.get(itemStack.typeId) !== undefined) {
-            return;
-        } else {
-            e.cancel = true;
-        }
-    }
-    system.run(() => {
+    world.getAllPlayers().filter(player => { return player.getDynamicProperty("isEnable") }).forEach(player => {
+
+        const lang = player.getDynamicProperty("language");
+        const scaleNotation = player.getDynamicProperty("scale_notation");
+        const isDisplayClick = player.getDynamicProperty("is_display_click_count");
+        const isDisplayInstrument = player.getDynamicProperty("is_display_instrument");
+        const view = player.getBlockFromViewDirection({ maxDistance: 10 });
+
+        if (!view) return player.onScreenDisplay.setActionBar("not found");
+        const block = view.block;
+
+        if (block.typeId !== "minecraft:noteblock") return player.onScreenDisplay.setActionBar("not found");
         const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
-        block.dimension.runCommand(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max - 1} ${block.location.z}`);
+        // block.dimension.runCommand(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max - 1} ${block.location.z}`);
+        world.structureManager.place(world.structureManager.get("__noteblocks"), block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
         const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
         for (let i = 0; i < chestInv.size; i++) {
@@ -88,11 +94,12 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
             }
         }
         //ブロックをもとに戻す
-        const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
-        block.dimension.fillBlocks(volume, "minecraft:air");
-        block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
+        system.run(() => {
+            const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
+            block.dimension.fillBlocks(volume, "minecraft:air");
+            block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
+        })
     })
-
 })
 
 system.afterEvents.scriptEventReceive.subscribe(e => {
@@ -167,13 +174,12 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
             } else {
                 sourceEntity.sendMessage(`${sourceEntity.getDynamicProperty("isEnable") ? "§eThe scale display has been enabled." : "§eThe scale display has been disabled."}`);
             }
-            sourceEntity.playSound("random.orb");
         })
     } else if (id == "note:version") {
         if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage("§eNoteBlock+のバージョンは 2.0.4 です。");
+            sourceEntity.sendMessage(`§eNoteBlock+のバージョンは ${ntpVersion} です。`);
         } else {
-            sourceEntity.sendMessage("§eNoteBlock+ is at version 2.0.4.");
+            sourceEntity.sendMessage(`§eNoteBlock+ is at version ${ntpVersion}.`);
         }
     }
 })

@@ -211,3 +211,5 @@ export const Scales = {
         ]
     }
 }
+
+export const ntpVersion = "2.0.5";
