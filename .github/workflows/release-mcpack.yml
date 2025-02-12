@@ -17,45 +17,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # リリース作成に必要な権限を明示的に設定
 
     steps:
-      # リポジトリをチェックアウト
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 不要なファイルを除いてファイルをコピー
       - name: Clean up unnecessary files
         run: |
           mkdir -p build
-          rsync -av --exclude='build' --exclude='.git/' --exclude='.github/' --exclude='.gitignore' --exclude='README.md' --exclude='package-lock.json' --exclude='package.json' --exclude='readme-en.md' --exclude='versions.json' ./ build/
+          rsync -av \
+            --exclude='build' \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            --exclude='package-lock.json' \
+            --exclude='package.json' \
+            --exclude='readme-en.md' \
+            --exclude='versions.json' \
+            ./ build/
 
-      # MCPACKファイルを生成 (ZIP圧縮)
       - name: Create MCPACK
         run: |
           cd build
           zip -r ../NoteBlockPlus.mcpack ./*
-          cd ..
 
-      # GitHubリリースにアップロード
       - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.tag_name }} # 手動で指定したタグ名
-          release_name: ${{ github.event.inputs.tag_name }}
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: ${{ github.event.inputs.tag_name }}
+          body: ${{ github.event.inputs.release_message }}
           draft: false
           prerelease: false
-          body: ${{ github.event.inputs.release_message }} # 手動で指定したリリースメッセージ
-
-        # MCPACKをアップロード
-      - name: Upload MCPACK to Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./NoteBlockPlus.mcpack
-          asset_name: NoteBlockPlus.mcpack
-          asset_content_type: application/zip
+          files: NoteBlockPlus.mcpack
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
