@@ -113,7 +113,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .toggle("楽器を表示する", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .toggle("デフォルトに戻す")
-                .submitButton("変更を適用")
+                .submitButton("適用")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
                     if (res.formValues[4]) {
