@@ -10,7 +10,12 @@ const DefaultConfig = {
 }
 
 world.afterEvents.playerSpawn.subscribe(e => {
-    if (e.initialSpawn) { }
+    if (e.initialSpawn) {
+        if (world.getAllPlayers().length < 2) {
+            world.sendMessage(`\n§l§eNoteblock+ ${ntpVersion} created by oasobi\n§r§p---------------------\nNoteBlockPlusが正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
+    If this message no longer appears, please check for updates at https://go.oasoobi.net/NoteBlockPlus.\n§r`);
+        }
+    }
     if (e.player.getDynamicProperty("language") == undefined) {
         e.player.setDynamicProperty("language", DefaultConfig.language);
     }
@@ -26,14 +31,6 @@ world.afterEvents.playerSpawn.subscribe(e => {
     if (e.player.getDynamicProperty("isEnable") == undefined) {
         e.player.setDynamicProperty("isEnable", true);
     }
-})
-
-world.afterEvents.playerSpawn.subscribe(() => {
-    if (world.getAllPlayers().length < 2) {
-        world.sendMessage(`\n§l§eNoteblock+ ${ntpVersion} created by oasobi\n§r§p---------------------\nNoteBlockPlusが正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
-If this message no longer appears, please check for updates at https://go.oasoobi.net/NoteBlockPlus.\n§r`);
-    }
-
 })
 
 system.runInterval(() => {
@@ -112,7 +109,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .dropdown("音階の表示形式", ["イタリア式(ドレミ)", "国際式(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
                 .toggle("楽器を表示する", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
+                .divider()
                 .toggle("デフォルトに戻す")
+                .label("注意: この項目を有効にして適用すると、言語以外の設定が初期化されます。")
                 .submitButton("適用")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
@@ -142,7 +141,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .dropdown("Scale notation", ["solfege(do,re,mi)", "international(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
                 .toggle("Display Instruments", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("Display clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
+                .divider()
                 .toggle("Restore settings")
+                .label("Warn: Enable this option and apply to reset all settings except for the language.")
                 .submitButton("Apply")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
@@ -179,7 +180,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
         if (sourceEntity.getDynamicProperty("language") == 1) {
             sourceEntity.sendMessage(`§eNoteBlock+のバージョンは ${ntpVersion} です。`);
         } else {
-            sourceEntity.sendMessage(`§eNoteBlock+ is at version ${ntpVersion}.`);
+            sourceEntity.sendMessage(`§eNoteBlock+ version: ${ntpVersion}.`);
         }
     }
 })

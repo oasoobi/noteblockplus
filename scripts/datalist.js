@@ -161,7 +161,7 @@ export const Scales = {
             "Sol#",
             "La",
             "La#",
-            "Si",
+            "Ti (Si)",
             "Do",
             "Do#",
             "Re",
@@ -212,4 +212,4 @@ export const Scales = {
     }
 }
 
-export const ntpVersion = "2.0.6";
+export const ntpVersion = "2.0.7-dev";
