@@ -212,4 +212,4 @@ export const Scales = {
     }
 }
 
-export const ntpVersion = "2.0.6";
+export const VERSION = "2.0.7-dev";

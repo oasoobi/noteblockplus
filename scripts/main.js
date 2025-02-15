@@ -1,6 +1,6 @@
 import { BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { Instruments, InstrumentsTranslateKey, Scales, ntpVersion } from "./datalist.js";
+import { Instruments, InstrumentsTranslateKey, Scales, VERSION } from "./datalist.js";
 
 const DefaultConfig = {
     scale_notation: 1,
@@ -30,7 +30,7 @@ world.afterEvents.playerSpawn.subscribe(e => {
 
 world.afterEvents.playerSpawn.subscribe(() => {
     if (world.getAllPlayers().length < 2) {
-        world.sendMessage(`\n§l§eNoteblock+ ${ntpVersion} created by oasobi\n§r§p---------------------\nNoteBlockPlusが正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
+        world.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
 If this message no longer appears, please check for updates at https://go.oasoobi.net/NoteBlockPlus.\n§r`);
     }
 
@@ -47,12 +47,11 @@ system.runInterval(() => {
         const isDisplayInstrument = player.getDynamicProperty("is_display_instrument");
         const view = player.getBlockFromViewDirection({ maxDistance: 10 });
 
-        if (!view) return player.onScreenDisplay.setActionBar("");
+        if (!view) return player.onScreenDisplay.setActionBar(" ");
         const block = view.block;
 
-        if (block.typeId !== "minecraft:noteblock") return player.onScreenDisplay.setActionBar("not found");
+        if (block.typeId !== "minecraft:noteblock") return player.onScreenDisplay.setActionBar(" ");
         const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
-        // block.dimension.runCommand(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max - 1} ${block.location.z}`);
         world.structureManager.place(world.structureManager.get("__noteblocks"), block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
         const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
@@ -177,9 +176,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
         })
     } else if (id == "note:version") {
         if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage(`§eNoteBlock+のバージョンは ${ntpVersion} です。`);
+            sourceEntity.sendMessage(`§eNoteBlock+のバージョンは ${VERSION} です。`);
         } else {
-            sourceEntity.sendMessage(`§eNoteBlock+ is at version ${ntpVersion}.`);
+            sourceEntity.sendMessage(`§eNoteBlock+ is v${VERSION}.`);
         }
     }
 })
