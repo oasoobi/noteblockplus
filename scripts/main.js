@@ -176,9 +176,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
         })
     } else if (id == "note:version") {
         if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage(`§eNoteBlock+のバージョンは ${VERSION} です。`);
+            sourceEntity.sendMessage(`§eNoteBlock+ v${VERSION} を使用しています。`);
         } else {
-            sourceEntity.sendMessage(`§eNoteBlock+ is v${VERSION}.`);
+            sourceEntity.sendMessage(`§eYou are using NoteBlock+ v${VERSION}.`);
         }
     }
 })
