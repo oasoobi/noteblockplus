@@ -47,7 +47,7 @@ system.runInterval(() => {
         const isDisplayInstrument = player.getDynamicProperty("is_display_instrument");
         const view = player.getBlockFromViewDirection({ maxDistance: 10 });
 
-        if (!view) return player.onScreenDisplay.setActionBar("not found");
+        if (!view) return player.onScreenDisplay.setActionBar("");
         const block = view.block;
 
         if (block.typeId !== "minecraft:noteblock") return player.onScreenDisplay.setActionBar("not found");
