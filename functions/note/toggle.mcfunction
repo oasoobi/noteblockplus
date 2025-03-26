@@ -1,1 +1,1 @@
-execute as @s run scriptevent note:toggle
+scriptevent note:toggle
