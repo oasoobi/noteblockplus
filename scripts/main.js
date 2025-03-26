@@ -112,6 +112,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .toggle("楽器を表示する", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .toggle("デフォルトに戻す")
+                .label("* デフォルトに戻すを選択すると、言語以外の設定が初期化されます。")
                 .submitButton("適用")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
@@ -142,6 +143,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .toggle("Display Instruments", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("Display clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .toggle("Restore settings")
+                .label("* If you select Restore settings, all settings except language will be reset.")
                 .submitButton("Apply")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;

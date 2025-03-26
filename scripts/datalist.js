@@ -212,4 +212,4 @@ export const Scales = {
     }
 }
 
-export const VERSION = "2.0.7-dev";
+export const VERSION = "2.0.7";
