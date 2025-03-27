@@ -1,6 +1,6 @@
 import { BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { Instruments, InstrumentsTranslateKey, Scales, ntpVersion } from "./datalist.js";
+import { Instruments, InstrumentsTranslateKey, Scales, VERSION } from "./datalist.js";
 
 const DefaultConfig = {
     scale_notation: 1,
@@ -33,6 +33,14 @@ world.afterEvents.playerSpawn.subscribe(e => {
     }
 })
 
+world.afterEvents.playerSpawn.subscribe(() => {
+    if (world.getAllPlayers().length < 2) {
+        world.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
+If this message no longer appears, please check for updates at https://go.oasoobi.net/NoteBlockPlus.\n§r`);
+    }
+
+})
+
 system.runInterval(() => {
     const ENGLISH = 0;
     const INTERNATIONAL = 1;
@@ -44,12 +52,11 @@ system.runInterval(() => {
         const isDisplayInstrument = player.getDynamicProperty("is_display_instrument");
         const view = player.getBlockFromViewDirection({ maxDistance: 10 });
 
-        if (!view) return player.onScreenDisplay.setActionBar("not found");
+        if (!view) return player.onScreenDisplay.setActionBar(" ");
         const block = view.block;
 
-        if (block.typeId !== "minecraft:noteblock") return player.onScreenDisplay.setActionBar("not found");
+        if (block.typeId !== "minecraft:noteblock") return player.onScreenDisplay.setActionBar(" ");
         const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
-        // block.dimension.runCommand(`structure load __noteblocks ${block.location.x} ${block.dimension.heightRange.max - 1} ${block.location.z}`);
         world.structureManager.place(world.structureManager.get("__noteblocks"), block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
         const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).getComponent("minecraft:inventory").container;
         chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
@@ -111,7 +118,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .divider()
                 .toggle("デフォルトに戻す")
-                .label("注意: この項目を有効にして適用すると、言語以外の設定が初期化されます。")
+                .label("* デフォルトに戻すを選択すると、言語以外の設定が初期化されます。")
                 .submitButton("適用")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
@@ -143,7 +150,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .toggle("Display clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
                 .divider()
                 .toggle("Restore settings")
-                .label("Warn: Enable this option and apply to reset all settings except for the language.")
+                .label("* If you select Restore settings, all settings except language will be reset.")
                 .submitButton("Apply")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
@@ -178,9 +185,9 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
         })
     } else if (id == "note:version") {
         if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage(`§eNoteBlock+のバージョンは ${ntpVersion} です。`);
+            sourceEntity.sendMessage(`§eNoteBlock+ v${VERSION} を使用しています。`);
         } else {
-            sourceEntity.sendMessage(`§eNoteBlock+ version: ${ntpVersion}.`);
+            sourceEntity.sendMessage(`§eYou are using NoteBlock+ v${VERSION}.`);
         }
     }
 })

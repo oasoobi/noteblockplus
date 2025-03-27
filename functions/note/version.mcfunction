@@ -1,1 +1,1 @@
-execute as @s run scriptevent note:version
+scriptevent note:version
