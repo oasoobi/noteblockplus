@@ -1,6 +1,6 @@
-import { Block, BlockComponentTypes, BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
+import { BlockVolume, Player, system, world } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { Instruments, InstrumentsTranslateKey, NoteBlockPitches, NoteBlockSounds, Scales, VERSION } from "./datalist.js";
+import { Instruments, InstrumentsTranslateKey, NoteBlockPitches, NoteBlockSounds, Scales, VERSION } from "./data.js";
 
 const DefaultConfig = {
     scale_notation: 1,
@@ -230,43 +230,14 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
                             }
                         }
                         console.log(instrument);
-                        player.playSound(NoteBlockSounds[instrument], {pitch: NoteBlockPitches[i - 1 < 0 ? 24 : i - 1]});
+                        player.playSound(NoteBlockSounds[instrument], { pitch: NoteBlockPitches[i - 1 < 0 ? 24 : i - 1] });
                     })
                     break;
-
                 }
             }
             const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
             block.dimension.fillBlocks(volume, "minecraft:air");
             block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
-
-
         })
     }
 })
-
-/**
- * 
- * @param {Block} block 
- * @returns {number}
- */
-function getNoteClicks(block) {
-    const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
-    world.structureManager.place(world.structureManager.get("__noteblocks"), block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
-    const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).getComponent("minecraft:inventory").container;
-    chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
-    let clickCount;
-    for (let i = 0; i < chestInv.size; i++) {
-        const slot = chestInv.getSlot(i);
-        if (1 < slot.amount) { //アイテムが二個あるスロットを確認
-            clickCount = i;
-            break;
-        }
-    }
-    system.run(() => {
-        const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
-        block.dimension.fillBlocks(volume, "minecraft:air");
-        block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
-    })
-    return clickCount;
-}
