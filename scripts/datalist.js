@@ -261,4 +261,4 @@ export const NoteBlockSounds = {
 };
 
 
-export const VERSION = "2.0.8-dev";
+export const VERSION = "2.0.8";
