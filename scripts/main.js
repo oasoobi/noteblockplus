@@ -117,7 +117,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .slider("距離", 1, 20, 1, sourceEntity.getDynamicProperty("distance"))
                 .toggle("楽器を表示する", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
-                .toggle("しゃがみながら右クリックで音階を一つ戻る", sourceEntity.getDynamicProperty("isReverseNoteWithSneakEnabled"))
+                .toggle("しゃがみながら右クリックで音階を一つ下げる", sourceEntity.getDynamicProperty("isReverseNoteWithSneakEnabled"))
                 .label("* この機能は実験的なものです。使用は自己責任でお願いします。")
                 .toggle("デフォルトに戻す")
                 .label("* デフォルトに戻すを選択すると、言語以外の設定が初期化されます。")
@@ -208,7 +208,7 @@ function initializeConfig(player) {
 
 world.beforeEvents.playerInteractWithBlock.subscribe(e => {
     const { block, player } = e;
-    if (block.typeId == "minecraft:noteblock" && player.isSneaking && player.getDynamicProperty("isReverseNoteWithSneakEnabled")) {
+    if (block.typeId == "minecraft:noteblock" && player.isSneaking && player.getDynamicProperty("isReverseNoteWithSneakEnabled") && player.getDynamicProperty("isEnable")) {
         e.cancel = true;
         system.run(() => {
             const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
@@ -229,8 +229,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
                                 break;
                             }
                         }
-                        console.log(instrument);
-                        player.playSound(NoteBlockSounds[instrument], { pitch: NoteBlockPitches[i - 1 < 0 ? 24 : i - 1] });
+                        player.dimension.playSound(NoteBlockSounds[instrument], block.location, { pitch: NoteBlockPitches[i - 1 < 0 ? 24 : i - 1], volume: 100 });
                     })
                     break;
                 }
