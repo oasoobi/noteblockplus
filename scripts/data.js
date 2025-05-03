@@ -34,6 +34,7 @@ export const Instruments = {
     "composter": "bass",
     "bee_nest": "bass",
     "beehive": "bass",
+    "smoker": "bass_drum",
     "amethyst_block": "bass_drum", //アメジスト系
     "soul_sand": "cow_bell",
     "glass": "clicks_and_sticks", //ガラス系
@@ -161,7 +162,7 @@ export const Scales = {
             "Sol#",
             "La",
             "La#",
-            "Si",
+            "Si(Ti)",
             "Do",
             "Do#",
             "Re",
@@ -173,7 +174,7 @@ export const Scales = {
             "Sol#",
             "La",
             "La#",
-            "Si",
+            "Si(Ti)",
             "Do",
             "Do#",
             "Re",
@@ -212,4 +213,52 @@ export const Scales = {
     }
 }
 
-export const VERSION = "2.0.7";
+export const NoteBlockPitches = [
+    0.500, // F#3
+    0.530, // G3
+    0.561, // G#3
+    0.595, // A3
+    0.630, // A#3
+    0.667, // B3
+    0.707, // C4
+    0.749, // C#4
+    0.794, // D4
+    0.841, // D#4
+    0.891, // E4
+    0.944, // F4
+    1.000, // F#4
+    1.059, // G4
+    1.122, // G#4
+    1.189, // A4
+    1.260, // A#4
+    1.335, // B4
+    1.414, // C5
+    1.498, // C#5
+    1.587, // D5
+    1.682, // D#5
+    1.782, // E5
+    1.888, // F5
+    2.000  // F#5
+];
+
+export const NoteBlockSounds = {
+    "piano": "note.harp",
+    "bass": "note.bass",
+    "bass_drum": "note.bd",
+    "cow_bell": "note.cow_bell",
+    "clicks_and_sticks": "note.hat",
+    "flute": "note.flute",
+    "pling_piano": "note.pling",
+    "snare_drum": "note.snare",
+    "bells": "note.bell",
+    "chimes": "note.chime",
+    "guitar": "note.guitar",
+    "xylophone": "note.xylophone",
+    "iron_xylophone": "note.iron_xylophone",
+    "didgeridoo": "note.didgeridoo",
+    "bit": "note.bit",
+    "banjo": "note.banjo"
+};
+
+
+export const VERSION = "2.0.8";

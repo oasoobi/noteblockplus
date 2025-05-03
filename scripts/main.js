@@ -1,6 +1,6 @@
-import { BlockTypes, BlockVolume, Player, system, world } from "@minecraft/server";
+import { BlockVolume, Player, system, world } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { Instruments, InstrumentsTranslateKey, Scales, VERSION } from "./datalist.js";
+import { Instruments, InstrumentsTranslateKey, NoteBlockPitches, NoteBlockSounds, Scales, VERSION } from "./data.js";
 
 const DefaultConfig = {
     scale_notation: 1,
@@ -26,12 +26,19 @@ world.afterEvents.playerSpawn.subscribe(e => {
     if (e.player.getDynamicProperty("isEnable") == undefined) {
         e.player.setDynamicProperty("isEnable", true);
     }
+    if (e.player.getDynamicProperty("isReverseNoteWithSneakEnabled") == undefined) {
+        e.player.setDynamicProperty("isReverseNoteWithSneakEnabled", false);
+    }
+    if (e.player.getDynamicProperty("distance") == undefined) {
+        e.player.setDynamicProperty("distance", 10);
+    }
 })
 
 world.afterEvents.playerSpawn.subscribe(() => {
     if (world.getAllPlayers().length < 2) {
-        world.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus has been loaded successfully.  
-If this message no longer appears, please check for updates at https://go.oasoobi.net/NoteBlockPlus.\n§r`);
+        system.run(() => {
+            world.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus v${VERSION} has been loaded successfully!\nIf you no longer see this message, please check for updates at https://go.oasoobi.net/NoteBlockPlus.§r`);
+        })
     }
 
 })
@@ -45,7 +52,7 @@ system.runInterval(() => {
         const scaleNotation = player.getDynamicProperty("scale_notation");
         const isDisplayClick = player.getDynamicProperty("is_display_click_count");
         const isDisplayInstrument = player.getDynamicProperty("is_display_instrument");
-        const view = player.getBlockFromViewDirection({ maxDistance: 10 });
+        const view = player.getBlockFromViewDirection({ maxDistance: player.getDynamicProperty("distance") + 1 });
 
         if (!view) return player.onScreenDisplay.setActionBar(" ");
         const block = view.block;
@@ -93,11 +100,9 @@ system.runInterval(() => {
             }
         }
         //ブロックをもとに戻す
-        system.run(() => {
-            const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
-            block.dimension.fillBlocks(volume, "minecraft:air");
-            block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
-        })
+        const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
+        block.dimension.fillBlocks(volume, "minecraft:air");
+        block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
     })
 })
 
@@ -109,21 +114,26 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .title("設定")
                 .dropdown("\n言語", ["English", "日本語"], sourceEntity.getDynamicProperty("language"))
                 .dropdown("音階の表示形式", ["イタリア式(ドレミ)", "国際式(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
+                .slider("距離", 1, 20, 1, sourceEntity.getDynamicProperty("distance"))
                 .toggle("楽器を表示する", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("クリック数を表示する", sourceEntity.getDynamicProperty("is_display_click_count"))
+                .toggle("しゃがみながら右クリックで音階を一つ下げる", sourceEntity.getDynamicProperty("isReverseNoteWithSneakEnabled"))
+                .label("* この機能は実験的なものです。使用は自己責任でお願いします。")
                 .toggle("デフォルトに戻す")
                 .label("* デフォルトに戻すを選択すると、言語以外の設定が初期化されます。")
                 .submitButton("適用")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
-                    if (res.formValues[4]) {
+                    if (res.formValues[6]) {
                         initializeConfig(sourceEntity);
                     } else {
                         //設定の変更
                         sourceEntity.setDynamicProperty("language", res.formValues[0]);
                         sourceEntity.setDynamicProperty("scale_notation", res.formValues[1])
-                        sourceEntity.setDynamicProperty("is_display_instrument", res.formValues[2])
-                        sourceEntity.setDynamicProperty("is_display_click_count", res.formValues[3])
+                        sourceEntity.setDynamicProperty("distance", res.formValues[2])
+                        sourceEntity.setDynamicProperty("is_display_instrument", res.formValues[3])
+                        sourceEntity.setDynamicProperty("is_display_click_count", res.formValues[4])
+                        sourceEntity.setDynamicProperty("isReverseNoteWithSneakEnabled", res.formValues[5])
                     }
 
                     system.run(() => {
@@ -140,20 +150,25 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
                 .title("Settings")
                 .dropdown("\nLanguage", ["English", "日本語"], sourceEntity.getDynamicProperty("language"))
                 .dropdown("Scale notation", ["solfege(do,re,mi)", "international(C,C#,D)"], sourceEntity.getDynamicProperty("scale_notation"))
+                .slider("Distance", 1, 20, 1, sourceEntity.getDynamicProperty("distance"))
                 .toggle("Display Instruments", sourceEntity.getDynamicProperty("is_display_instrument"))
                 .toggle("Display clicks", sourceEntity.getDynamicProperty("is_display_click_count"))
+                .toggle("Sneak + Right Click to decrease the scale by one step", sourceEntity.getDynamicProperty("isReverseNoteWithSneakEnabled"))
+                .label("* This is an experimental feature. Use at your own risk.")
                 .toggle("Restore settings")
                 .label("* If you select Restore settings, all settings except language will be reset.")
                 .submitButton("Apply")
                 .show(sourceEntity).then(res => {
                     if (res.canceled) return;
-                    if (res.formValues[4]) {
+                    if (res.formValues[6]) {
                         initializeConfig(sourceEntity);
                     } else {
                         sourceEntity.setDynamicProperty("language", res.formValues[0]);
                         sourceEntity.setDynamicProperty("scale_notation", res.formValues[1])
-                        sourceEntity.setDynamicProperty("is_display_instrument", res.formValues[2])
-                        sourceEntity.setDynamicProperty("is_display_click_count", res.formValues[3])
+                        sourceEntity.setDynamicProperty("distance", res.formValues[2])
+                        sourceEntity.setDynamicProperty("is_display_instrument", res.formValues[3])
+                        sourceEntity.setDynamicProperty("is_display_click_count", res.formValues[4])
+                        sourceEntity.setDynamicProperty("isReverseNoteWithSneakEnabled", res.formValues[5])
                     }
 
                     system.run(() => {
@@ -177,11 +192,7 @@ system.afterEvents.scriptEventReceive.subscribe(e => {
             }
         })
     } else if (id == "note:version") {
-        if (sourceEntity.getDynamicProperty("language") == 1) {
-            sourceEntity.sendMessage(`§eNoteBlock+ v${VERSION} を使用しています。`);
-        } else {
-            sourceEntity.sendMessage(`§eYou are using NoteBlock+ v${VERSION}.`);
-        }
+        sourceEntity.sendMessage(`§eNoteBlock+ v${VERSION}`);
     }
 })
 
@@ -194,3 +205,38 @@ function initializeConfig(player) {
     player.setDynamicProperty("is_display_instrument", DefaultConfig.is_display_instrument);
     player.setDynamicProperty("is_display_click_count", DefaultConfig.is_display_click_count);
 }
+
+world.beforeEvents.playerInteractWithBlock.subscribe(e => {
+    const { block, player } = e;
+    if (block.typeId == "minecraft:noteblock" && player.isSneaking && player.getDynamicProperty("isReverseNoteWithSneakEnabled") && player.getDynamicProperty("isEnable")) {
+        e.cancel = true;
+        system.run(() => {
+            const permutation = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).permutation;
+            world.structureManager.place(world.structureManager.get("__noteblocks"), block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
+            const chestInv = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).getComponent("minecraft:inventory").container;
+            chestInv.addItem(block.getItemStack(1, true)); //音ブロックをデータ付きでチェストに追加
+            for (let i = 0; i < chestInv.size; i++) {
+                const slot = chestInv.getSlot(i);
+                if (1 < slot.amount) { //アイテムが二個あるスロットを確認
+                    system.run(() => {
+                        world.structureManager.place(world.structureManager.get(`${i - 1 < 0 ? 24 : i - 1}`), block.dimension, block.location);
+                        let instrument = "piano";
+                        const underblock = block.below(1); //1ブロック下のブロックを取得
+                        const keys = Object.keys(Instruments)
+                        for (const key of keys) {
+                            if (underblock.typeId.includes(key)) {
+                                instrument = Instruments[key];
+                                break;
+                            }
+                        }
+                        player.dimension.playSound(NoteBlockSounds[instrument], block.location, { pitch: NoteBlockPitches[i - 1 < 0 ? 24 : i - 1], volume: 100 });
+                    })
+                    break;
+                }
+            }
+            const volume = new BlockVolume({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
+            block.dimension.fillBlocks(volume, "minecraft:air");
+            block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }).setPermutation(permutation);
+        })
+    }
+})
