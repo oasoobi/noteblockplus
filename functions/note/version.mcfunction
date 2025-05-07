@@ -1,1 +1,1 @@
-scriptevent note:version
+ntp:ntp version
