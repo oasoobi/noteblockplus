@@ -1,1 +1,1 @@
-scriptevent note:config
+ntp:ntp config

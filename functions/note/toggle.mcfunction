@@ -1,1 +1,1 @@
-scriptevent note:toggle
+ntp:ntp toggle
