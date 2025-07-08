@@ -88,44 +88,52 @@ export const Instruments = {
     "gravel": "snare_drum" //砂利、怪しげな砂利
 }
 
-export const InstrumentsTranslateKey = {
-    ja: {
-        "piano": "ピアノ",
-        "bass": "バス",
-        "bass_drum": "バスドラム",
-        "cow_bell": "カウベル",
-        "clicks_and_sticks": "スティック",
-        "flute": "フルート",
-        "pling_piano": "電子ピアノ",
-        "snare_drum": "スネアドラム",
-        "bells": "ベル",
-        "chimes": "チャイム",
-        "guitar": "ギター",
-        "xylophone": "木琴",
-        "iron_xylophone": "鉄琴",
-        "didgeridoo": "ディジュリドゥ",
-        "bit": "電子音",
-        "banjo": "バンジョー"
-    },
-    en: {
-        "piano": "Piano",
-        "bass": "Bass",
-        "bass_drum": "Bass Drum",
-        "cow_bell": "Cow Bell",
-        "clicks_and_sticks": "Clicks and Sticks",
-        "flute": "Flute",
-        "pling_piano": "Pling Piano",
-        "snare_drum": "Snare",
-        "bells": "Bells",
-        "chimes": "Chimes",
-        "guitar": "Guitar",
-        "xylophone": "Xylophone",
-        "iron_xylophone": "Iron Xylophone",
-        "didgeridoo": "Didgeridoo",
-        "bit": "Bit",
-        "banjo": "Banjo"
-    }
-}
+export const NoteBlockPitches = [
+    0.500, // F#3
+    0.530, // G3
+    0.561, // G#3
+    0.595, // A3
+    0.630, // A#3
+    0.667, // B3
+    0.707, // C4
+    0.749, // C#4
+    0.794, // D4
+    0.841, // D#4
+    0.891, // E4
+    0.944, // F4
+    1.000, // F#4
+    1.059, // G4
+    1.122, // G#4
+    1.189, // A4
+    1.260, // A#4
+    1.335, // B4
+    1.414, // C5
+    1.498, // C#5
+    1.587, // D5
+    1.682, // D#5
+    1.782, // E5
+    1.888, // F5
+    2.000  // F#5
+];
+
+export const NoteBlockSounds = {
+    "piano": "note.harp",
+    "bass": "note.bass",
+    "bass_drum": "note.bd",
+    "cow_bell": "note.cow_bell",
+    "clicks_and_sticks": "note.hat",
+    "flute": "note.flute",
+    "pling_piano": "note.pling",
+    "snare_drum": "note.snare",
+    "bells": "note.bell",
+    "chimes": "note.chime",
+    "guitar": "note.guitar",
+    "xylophone": "note.xylophone",
+    "iron_xylophone": "note.iron_xylophone",
+    "didgeridoo": "note.didgeridoo",
+    "bit": "note.bit",
+    "banjo": "note.banjo"
+};
 
 export const Scales = {
     international: [
@@ -213,52 +221,44 @@ export const Scales = {
     }
 }
 
-export const NoteBlockPitches = [
-    0.500, // F#3
-    0.530, // G3
-    0.561, // G#3
-    0.595, // A3
-    0.630, // A#3
-    0.667, // B3
-    0.707, // C4
-    0.749, // C#4
-    0.794, // D4
-    0.841, // D#4
-    0.891, // E4
-    0.944, // F4
-    1.000, // F#4
-    1.059, // G4
-    1.122, // G#4
-    1.189, // A4
-    1.260, // A#4
-    1.335, // B4
-    1.414, // C5
-    1.498, // C#5
-    1.587, // D5
-    1.682, // D#5
-    1.782, // E5
-    1.888, // F5
-    2.000  // F#5
-];
-
-export const NoteBlockSounds = {
-    "piano": "note.harp",
-    "bass": "note.bass",
-    "bass_drum": "note.bd",
-    "cow_bell": "note.cow_bell",
-    "clicks_and_sticks": "note.hat",
-    "flute": "note.flute",
-    "pling_piano": "note.pling",
-    "snare_drum": "note.snare",
-    "bells": "note.bell",
-    "chimes": "note.chime",
-    "guitar": "note.guitar",
-    "xylophone": "note.xylophone",
-    "iron_xylophone": "note.iron_xylophone",
-    "didgeridoo": "note.didgeridoo",
-    "bit": "note.bit",
-    "banjo": "note.banjo"
-};
+export const InstrumentsTranslateKey = {
+    ja: {
+        "piano": "ピアノ",
+        "bass": "バス",
+        "bass_drum": "バスドラム",
+        "cow_bell": "カウベル",
+        "clicks_and_sticks": "スティック",
+        "flute": "フルート",
+        "pling_piano": "電子ピアノ",
+        "snare_drum": "スネアドラム",
+        "bells": "ベル",
+        "chimes": "チャイム",
+        "guitar": "ギター",
+        "xylophone": "木琴",
+        "iron_xylophone": "鉄琴",
+        "didgeridoo": "ディジュリドゥ",
+        "bit": "電子音",
+        "banjo": "バンジョー"
+    },
+    en: {
+        "piano": "Piano",
+        "bass": "Bass",
+        "bass_drum": "Bass Drum",
+        "cow_bell": "Cow Bell",
+        "clicks_and_sticks": "Clicks and Sticks",
+        "flute": "Flute",
+        "pling_piano": "Pling Piano",
+        "snare_drum": "Snare",
+        "bells": "Bells",
+        "chimes": "Chimes",
+        "guitar": "Guitar",
+        "xylophone": "Xylophone",
+        "iron_xylophone": "Iron Xylophone",
+        "didgeridoo": "Didgeridoo",
+        "bit": "Bit",
+        "banjo": "Banjo"
+    }
+}
 
 export const DefaultConfig = {
     scale_notation: "international",
@@ -269,6 +269,5 @@ export const DefaultConfig = {
     is_reverse_note_with_sneak_enabled: false,
     distance: 10
 }
-
 
 export const VERSION = "2.0.10";
