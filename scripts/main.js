@@ -1,16 +1,10 @@
 import { BlockVolume, Player, system, world, CommandPermissionLevel, CustomCommandParamType, CustomCommandStatus, CustomCommandOrigin } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 import { Instruments, InstrumentsTranslateKey, NoteBlockPitches, NoteBlockSounds, Scales, VERSION } from "./data.js";
+import { DefaultConfig } from "./data.js";
+import { PlayerData } from "./lib/playerData.js";
+import { DebugBox, debugDrawer } from "@minecraft/debug-utilities";
 
-const DefaultConfig = {
-    scale_notation: 1,
-    is_display_instrument: true,
-    is_display_click_count: true,
-    language: 0,
-    is_enable: true,
-    is_reverse_note_with_sneak_enabled: false,
-    distance: 10
-}
 
 system.beforeEvents.startup.subscribe(e => {
     /**
@@ -18,11 +12,12 @@ system.beforeEvents.startup.subscribe(e => {
      */
     const ntpCommand = {
         name: "ntp:ntp",
-        description: "NoteBlock+に関するコマンド。",
+        description: "NoteBlock+に関するコマンド。/ Commands related to NoteBlock+",
         permissionLevel: CommandPermissionLevel.Any,
-        mandatoryParameters: [{ type: CustomCommandParamType.Enum, name: "ntp:action" }]
+        mandatoryParameters: [{ type: CustomCommandParamType.Enum, name: "ntp:action" }],
+        cheatsRequired: false
     }
-    e.customCommandRegistry.registerEnum("ntp:action", ["config", "toggle", "reset", "version", ]);
+    e.customCommandRegistry.registerEnum("ntp:action", ["config", "toggle", "reset", "version",]);
 
     e.customCommandRegistry.registerCommand(ntpCommand, ntpCommandFunc)
 })
@@ -68,11 +63,12 @@ function ntpCommandFunc(origin, action) {
         if (origin.sourceEntity.typeId == "minecraft:player") {
             system.run(() => {
                 new ConfigManager(origin.sourceEntity).reset();
-                    origin.sourceEntity.sendMessage("§e設定を初期化しました。");
+                origin.sourceEntity.sendMessage("§e設定を初期化しました。");
                 return { status: CustomCommandStatus.Success };
             })
         }
     }
+    return { status: CustomCommandStatus.Failure, message: "" };
 }
 
 world.afterEvents.playerSpawn.subscribe((e) => {
@@ -114,6 +110,13 @@ system.runInterval(() => {
                 resultMsg = lang == ENGLISH ? "scale: " : "音階: ";
                 if (scaleNotation == INTERNATIONAL) {
                     resultMsg += Scales.international[clickCount];
+                    const box = new DebugBox(block.location);
+                    box.color = {blue: 0, green: 255, red: 0};
+                    box.bound = block.location;
+                    box.timeLeft = 10;
+                    box.scale = 1.5;
+                    debugDrawer.addShape(box);
+                    
                 } else {
                     resultMsg += Scales.solfege[lang == ENGLISH ? "en" : "ja"][clickCount];
                 }
@@ -204,6 +207,11 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
 
 class ConfigManager {
     /**
+     * @type {Player}
+     * @private
+     */
+    player;
+    /**
      * 
      * @param {Player} player 
      */
@@ -212,13 +220,14 @@ class ConfigManager {
     }
 
     openUI() {
-        if (this.player.getDynamicProperty("language") == 1) {
+        const PlayerDataManager = new PlayerData(this.player);
+        if (PlayerDataManager.getLang() == "ja") {
             new ModalFormData()
                 .title("設定")
-                .dropdown("\n言語", ["English", "日本語"], { defaultValueIndex: this.player.getDynamicProperty("language") })
-                .dropdown("音階の表示形式", ["イタリア式(ドレミ)", "国際式(C,C#,D)"], { defaultValueIndex: this.player.getDynamicProperty("scale_notation") })
-                .slider("距離", 1, 20, { defaultValue: this.player.getDynamicProperty("distance"), valueStep: 1, tooltip: "音ブロックの表示距離を設定します。" })
-                .toggle("楽器を表示", { defaultValue: this.player.getDynamicProperty("is_display_instrument"), tooltip: "楽器の表示/非表示を切り替えます。" },)
+                .dropdown("\n言語", ["English", "日本語"], { defaultValueIndex: 1 }) //日本語を選択した状態にする
+                .dropdown("音階の表示形式", ["イタリア式(ドレミ)", "国際式(C,C#,D)"], { defaultValueIndex: PlayerDataManager.getConfig("scaleDisplayStyle") == "international", tooltip: "音階の表示形式を変更します。" })
+                .slider("距離", 1, 20, { defaultValue: PlayerDataManager.getConfig("distance"), valueStep: 1, tooltip: "音ブロックの表示距離を設定します。" })
+                .toggle("楽器を表示", { defaultValue: PlayerDataManager.getConfig("isDisplayInstrument"), tooltip: "楽器の表示/非表示を切り替えます。重い場合は無効にすると軽くなる場合があります。" },)
                 .toggle("クリック数を表示", { defaultValue: this.player.getDynamicProperty("is_display_click_count"), tooltip: "クリック数の表示/非表示を切り替えます。" })
                 .toggle("しゃがみながら右クリックで音階を一つ下げる", { defaultValue: this.player.getDynamicProperty("isReverseNoteWithSneakEnabled"), tooltip: "しゃがみ + 右クリックで音階を一つ下げる機能を有効にします。" })
                 .label("* この機能は実験的なものです。使用は自己責任でお願いします。")
@@ -244,7 +253,7 @@ class ConfigManager {
             new ModalFormData()
                 .title("Settings")
                 .dropdown("\nLanguage", ["English", "日本語"], { defaultValueIndex: this.player.getDynamicProperty("language") })
-                .dropdown("Scale notation", ["Solfege (Do, Re, Mi)", "International (C, C#, D)"], { defaultValueIndex: this.player.getDynamicProperty("scale_notation") })
+                .dropdown("Scale Display Style", ["Solfege (Do, Re, Mi)", "International (C, C#, D)"], { defaultValueIndex: this.player.getDynamicProperty("scale_notation") })
                 .slider("Distance", 1, 20, {
                     defaultValue: this.player.getDynamicProperty("distance"),
                     valueStep: 1,

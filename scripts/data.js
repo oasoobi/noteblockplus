@@ -260,5 +260,15 @@ export const NoteBlockSounds = {
     "banjo": "note.banjo"
 };
 
+export const DefaultConfig = {
+    scale_notation: "international",
+    is_display_instrument: true,
+    is_display_click_count: true,
+    language: "en",
+    is_enable: true,
+    is_reverse_note_with_sneak_enabled: false,
+    distance: 10
+}
 
-export const VERSION = "2.0.9";
+
+export const VERSION = "2.0.10";

@@ -10,8 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@minecraft/server": "^2.0.0-beta.1.21.80-stable",
-    "@minecraft/server-ui": "^2.0.0-beta.1.21.80-stable",
+    "@minecraft/debug-utilities": "^1.0.0-beta.1.21.90-stable",
+    "@minecraft/server": "^2.1.0-beta.1.21.90-stable",
+    "@minecraft/server-ui": "^2.1.0-beta.1.21.90-stable",
     "i": "^0.3.7",
     "npm": "^10.5.2"
   }
