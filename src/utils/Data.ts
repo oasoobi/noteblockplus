@@ -261,12 +261,12 @@ export const InstrumentsTranslateKey = {
 }
 
 export const DefaultConfig = {
-    scale_notation: "international",
-    is_display_instrument: true,
-    is_display_click_count: true,
+    scaleDisplayStyle: "international",
+    isDisplayInstrument: true,
+    isDisplayClickCount: true,
     language: "en",
-    is_enable: true,
-    is_reverse_note_with_sneak_enabled: false,
+    isEnable: true,
+    isReverseEnabled: false,
     distance: 10
 }
 

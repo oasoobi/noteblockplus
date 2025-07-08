@@ -66,13 +66,13 @@ export default class ConfigManager {
             this.#player.setDynamicProperty("language", DefaultConfig.language);
         }
         if (this.#player.getDynamicProperty("scaleDisplayStyle") == undefined) {
-            this.#player.setDynamicProperty("scaleDisplayStyle", DefaultConfig.scale_notation);
+            this.#player.setDynamicProperty("scaleDisplayStyle", DefaultConfig.scaleDisplayStyle);
         }
         if (this.#player.getDynamicProperty("isDisplayInstrument") == undefined) {
-            this.#player.setDynamicProperty("isDisplayInstrument", DefaultConfig.is_display_instrument);
+            this.#player.setDynamicProperty("isDisplayInstrument", DefaultConfig.isDisplayInstrument);
         }
         if (this.#player.getDynamicProperty("isDisplayClickCount") == undefined) {
-            this.#player.setDynamicProperty("isDisplayClickCount", DefaultConfig.is_display_click_count);
+            this.#player.setDynamicProperty("isDisplayClickCount", DefaultConfig.isDisplayClickCount);
         }
         if (this.#player.getDynamicProperty("isEnable") == undefined) {
             this.#player.setDynamicProperty("isEnable", true);
@@ -86,20 +86,20 @@ export default class ConfigManager {
     }
 
     reset() {
-        this.#player.setDynamicProperty("scaleDisplayStyle", DefaultConfig.scale_notation);
-        this.#player.setDynamicProperty("isDisplayInstrument", DefaultConfig.is_display_instrument);
-        this.#player.setDynamicProperty("isDisplayClickCount", DefaultConfig.is_display_click_count);
-        this.#player.setDynamicProperty("isEnable", DefaultConfig.is_enable);
-        this.#player.setDynamicProperty("isReverseEnabled", DefaultConfig.is_reverse_note_with_sneak_enabled);
+        this.#player.setDynamicProperty("scaleDisplayStyle", DefaultConfig.scaleDisplayStyle);
+        this.#player.setDynamicProperty("isDisplayInstrument", DefaultConfig.isDisplayInstrument);
+        this.#player.setDynamicProperty("isDisplayClickCount", DefaultConfig.isDisplayClickCount);
+        this.#player.setDynamicProperty("isEnable", DefaultConfig.isEnable);
+        this.#player.setDynamicProperty("isReverseEnabled", DefaultConfig.isReverseEnabled);
         this.#player.setDynamicProperty("distance", DefaultConfig.distance);
     }
 
     update(res: any) {
         this.#player.setDynamicProperty("language", res.formValues[0]);
-        this.#player.setDynamicProperty("scale_notation", res.formValues[1])
+        this.#player.setDynamicProperty("scaleDisplayStyle", res.formValues[1])
         this.#player.setDynamicProperty("distance", res.formValues[2])
-        this.#player.setDynamicProperty("is_display_instrument", res.formValues[3])
-        this.#player.setDynamicProperty("is_display_click_count", res.formValues[4])
-        this.#player.setDynamicProperty("isReverseNoteWithSneakEnabled", res.formValues[5])
+        this.#player.setDynamicProperty("isDisplayInstrument", res.formValues[3])
+        this.#player.setDynamicProperty("isDisplayClickCount", res.formValues[4])
+        this.#player.setDynamicProperty("isReverseEnabled", res.formValues[5])
     }
 }
