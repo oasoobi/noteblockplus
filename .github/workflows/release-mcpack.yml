@@ -35,8 +35,10 @@ jobs:
             --exclude='README.md' \
             --exclude='package-lock.json' \
             --exclude='package.json' \
-            --exclude='readme-en.md' \
             --exclude='versions.json' \
+            --exclude='src/' \
+            --exclude='tsconfig.json' \
+            --exclude='.vscode/' \
             ./ build/
 
       - name: Create MCPACK
