@@ -8,7 +8,7 @@ export default class PlayerDataManager {
     }
 
     getLang(): Language {
-        return (this.#player.getDynamicProperty("lang") as Language | null) ?? "en";
+        return (this.#player.getDynamicProperty("language") as Language | null) ?? "en";
     }
 
     isEnable(): boolean {

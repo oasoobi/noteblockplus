@@ -4,7 +4,7 @@ export default class PlayerDataManager {
         this.#player = player;
     }
     getLang() {
-        return this.#player.getDynamicProperty("lang") ?? "en";
+        return this.#player.getDynamicProperty("language") ?? "en";
     }
     isEnable() {
         return this.#player.getDynamicProperty("isEnable") ?? true;

@@ -1,7 +1,6 @@
-import { Player } from "@minecraft/server";
+import { Player, system } from "@minecraft/server";
 import PlayerDataManager from "./PlayerDataManager";
 import { ModalFormData } from "@minecraft/server-ui";
-import { system } from "@minecraft/server";
 import { DefaultConfig } from "./Data";
 
 export default class ConfigManager {
@@ -95,8 +94,8 @@ export default class ConfigManager {
     }
 
     update(res: any) {
-        this.#player.setDynamicProperty("language", res.formValues[0]);
-        this.#player.setDynamicProperty("scaleDisplayStyle", res.formValues[1])
+        this.#player.setDynamicProperty("language", res.formValues[0] == 0 ? "en" : "ja");
+        this.#player.setDynamicProperty("scaleDisplayStyle", res.formValues[1] == 0 ? "solfege" : "international")
         this.#player.setDynamicProperty("distance", res.formValues[2])
         this.#player.setDynamicProperty("isDisplayInstrument", res.formValues[3])
         this.#player.setDynamicProperty("isDisplayClickCount", res.formValues[4])

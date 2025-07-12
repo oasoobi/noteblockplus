@@ -85,8 +85,38 @@ export const Instruments = {
     "emerald_block": "bit",
     "hay_block": "banjo",
     "sand": "snare_drum", //砂、赤砂、怪しげな砂
-    "gravel": "snare_drum" //砂利、怪しげな砂利
+    "gravel": "snare_drum", //砂利、怪しげな砂利
+    "trial_spawner": "bass_drum", //トライアルスポナー
+    "vault": "bass_drum", //宝物庫
+    "dragon_egg": "bass_drum"
 };
+export const colors = [
+    { red: 91 / 255, green: 214 / 255, blue: 188 / 255 },
+    { red: 133 / 255, green: 194 / 255, blue: 180 / 255 },
+    { red: 158 / 255, green: 163 / 255, blue: 164 / 255 },
+    { red: 179 / 255, green: 130 / 255, blue: 161 / 255 },
+    { red: 196 / 255, green: 102 / 255, blue: 175 / 255 },
+    { red: 219 / 255, green: 49 / 255, blue: 208 / 255 },
+    { red: 234 / 255, green: 3 / 255, blue: 24 / 255 },
+    { red: 220 / 255, green: 220 / 255, blue: 77 / 255 },
+    { red: 206 / 255, green: 194 / 255, blue: 110 / 255 },
+    { red: 181 / 255, green: 181 / 255, blue: 141 / 255 },
+    { red: 165 / 255, green: 170 / 255, blue: 165 / 255 },
+    { red: 139 / 255, green: 176 / 255, blue: 187 / 255 },
+    { red: 93 / 255, green: 196 / 255, blue: 208 / 255 },
+    { red: 64 / 255, green: 212 / 255, blue: 217 / 255 },
+    { red: 12 / 255, green: 4 / 255, blue: 219 / 255 },
+    { red: 201 / 255, green: 47 / 255, blue: 217 / 255 },
+    { red: 182 / 255, green: 88 / 255, blue: 206 / 255 },
+    { red: 173 / 255, green: 127 / 255, blue: 185 / 255 },
+    { red: 166 / 255, green: 164 / 255, blue: 164 / 255 },
+    { red: 181 / 255, green: 191 / 255, blue: 140 / 255 },
+    { red: 196 / 255, green: 214 / 255, blue: 110 / 255 },
+    { red: 219 / 255, green: 234 / 255, blue: 70 / 255 },
+    { red: 37 / 255, green: 216 / 255, blue: 37 / 255 },
+    { red: 58 / 255, green: 229 / 255, blue: 205 / 255 },
+    { red: 92 / 255, green: 217 / 255, blue: 191 / 255 }
+];
 export const NoteBlockPitches = [
     0.500, // F#3
     0.530, // G3
@@ -256,12 +286,12 @@ export const InstrumentsTranslateKey = {
     }
 };
 export const DefaultConfig = {
-    scale_notation: "international",
-    is_display_instrument: true,
-    is_display_click_count: true,
+    scaleDisplayStyle: "international",
+    isDisplayInstrument: true,
+    isDisplayClickCount: true,
     language: "en",
-    is_enable: true,
-    is_reverse_note_with_sneak_enabled: false,
+    isEnable: true,
+    isReverseEnabled: false,
     distance: 10
 };
 export const VERSION = "2.0.10";
