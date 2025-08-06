@@ -294,4 +294,4 @@ export const DefaultConfig = {
     isReverseEnabled: false,
     distance: 10
 };
-export const VERSION = "2.1.2";
+export const VERSION = "2.2.1";
