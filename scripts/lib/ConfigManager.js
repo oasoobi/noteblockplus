@@ -1,7 +1,7 @@
 import { system } from "@minecraft/server";
 import PlayerDataManager from "./PlayerDataManager";
 import { ModalFormData } from "@minecraft/server-ui";
-import { DefaultConfig } from "./Data";
+import { DefaultConfig } from "./Constants";
 export default class ConfigManager {
     #player;
     constructor(player) {

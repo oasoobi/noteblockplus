@@ -1,6 +1,6 @@
 import { CustomCommandOrigin, CustomCommandResult, CustomCommandSource, CustomCommandStatus, system, Player } from "@minecraft/server";
 import PlayerDataManager from "../lib/PlayerDataManager";
-import { VERSION } from "../lib/Data";
+import { VERSION } from "../lib/Constants";
 import ConfigManager from "../lib/ConfigManager";
 
 

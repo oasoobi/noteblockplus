@@ -1,6 +1,6 @@
 import { system, world, CommandPermissionLevel, CustomCommand, CustomCommandParamType, BlockTypes, MolangVariableMap } from "@minecraft/server";
 import PlayerDataManager from "./lib/PlayerDataManager";
-import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Data";
+import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Constants";
 import NoteBlock from "./lib/NoteBlockManager";
 import { Language, ScaleDisplayStyle } from "./@types";
 import { commandFunc } from "./commands/index";
@@ -56,7 +56,7 @@ system.runInterval(() => {
     world.getAllPlayers().filter(player => PlayerDataManager.getIsEnable(player)).forEach(player => {
 
         const viewRange = (PlayerDataManager.getConfig(player, "distance") as number) + 1;
-        const viewBlock = player.getBlockFromViewDirection({ maxDistance: viewRange })?.block;
+        const viewBlock = player.getBlockFromViewDirection({ maxDistance: viewRange ?? 10 })?.block;
 
         if (!viewBlock || viewBlock.typeId !== "minecraft:noteblock") return;
         let actionBarMessage = "";

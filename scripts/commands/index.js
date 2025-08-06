@@ -1,6 +1,6 @@
 import { CustomCommandSource, CustomCommandStatus, system } from "@minecraft/server";
 import PlayerDataManager from "../lib/PlayerDataManager";
-import { VERSION } from "../lib/Data";
+import { VERSION } from "../lib/Constants";
 import ConfigManager from "../lib/ConfigManager";
 export function commandFunc(origin, control) {
     if (origin.sourceType !== CustomCommandSource.Entity && origin.sourceEntity?.typeId !== "minecraft:player")

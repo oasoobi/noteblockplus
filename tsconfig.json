@@ -9,7 +9,8 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
-    "outDir": "./scripts"
+    "outDir": "./scripts",
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"],
   "include": ["src"]
