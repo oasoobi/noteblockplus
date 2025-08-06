@@ -70,7 +70,7 @@ system.runInterval(() => {
         if (PlayerDataManager.getConfig(player, "isDisplayClickCount")) actionBarMessage += " click: " + scaleIndex;
 
         const instrument = NoteBlock.getInstrument(viewBlock);
-        if (PlayerDataManager.getConfig(player, "isDisplayInstrument")) actionBarMessage += PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: " + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language") as Language][instrument];
+        if (PlayerDataManager.getConfig(player, "isDisplayInstrument")) actionBarMessage += (PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: ") + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language") as Language][instrument];
         player.onScreenDisplay.setActionBar(actionBarMessage);
     })
 }, 1)

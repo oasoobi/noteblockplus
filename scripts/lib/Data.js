@@ -1,4 +1,6 @@
 export const Instruments = {
+    "copper_chest": "piano",
+    "redstone_lamp": "piano",
     "lit_pumpkin": "piano", //上書き回避用
     "carved_pumpkin": "piano", //上書き回避用
     "redstone_block": "piano", //上書き回避用
