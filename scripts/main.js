@@ -1,9 +1,9 @@
 import { system, world, CommandPermissionLevel, CustomCommandParamType, BlockTypes, MolangVariableMap } from "@minecraft/server";
-import PlayerDataManager from "./utils/PlayerDataManager";
-import { NoteBlockPitches, NoteBlockSounds, Scales, VERSION, InstrumentsTranslateKey, colors } from "./utils/Data";
-import NoteBlock from "./utils/index";
+import PlayerDataManager from "./lib/PlayerDataManager";
+import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Data";
+import NoteBlock from "./lib/NoteBlockManager";
 import { commandFunc } from "./commands/index";
-import ConfigManager from "./utils/ConfigManager";
+import ConfigManager from "./lib/ConfigManager";
 system.beforeEvents.startup.subscribe(e => {
     const noteBlockPlusCommand = {
         name: "ntp:ntp",
@@ -39,7 +39,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
         const molangVariables = new MolangVariableMap();
         molangVariables.setColorRGB("variable.note_color", colors[index]);
         world.structureManager.place(`${index}`, block.dimension, block.location);
-        if (!block.above(1).isAir)
+        if (!block.above(1)?.isAir)
             return;
         player.dimension.playSound(NoteBlockSounds[instrument], block.location, { pitch: NoteBlockPitches[index], volume: 100 });
         player.dimension.spawnParticle("minecraft:note_particle", { x: block.location.x + 0.5, y: block.location.y + 1.2, z: block.location.z + 0.5 }, molangVariables);
@@ -52,17 +52,15 @@ system.runInterval(() => {
         if (!viewBlock || viewBlock.typeId !== "minecraft:noteblock")
             return;
         let actionBarMessage = "";
-        //音階のindexを取得して対応するscaleセットを取得
         const scaleIndex = NoteBlock.getScale(viewBlock);
-        const scales = Scales[PlayerDataManager.getConfig(player, "scaleDisplayStyle")];
+        const scaleSet = PlayerDataManager.getConfig(player, "scaleDisplayStyle") == "international" ? InternationalScales : SolfegeScales[PlayerDataManager.getLang(player)];
         actionBarMessage += PlayerDataManager.getConfig(player, "language") == "en" ? "scale: " : "音階: ";
-        //表示スタイルに応じで取得のやり方を変更
-        actionBarMessage += PlayerDataManager.getConfig(player, "scaleDisplayStyle") == "international" ? scales[scaleIndex] : scales[PlayerDataManager.getConfig(player, "language")][scaleIndex];
+        actionBarMessage += scaleSet[scaleIndex];
         if (PlayerDataManager.getConfig(player, "isDisplayClickCount"))
             actionBarMessage += " click: " + scaleIndex;
         const instrument = NoteBlock.getInstrument(viewBlock);
         if (PlayerDataManager.getConfig(player, "isDisplayInstrument"))
-            actionBarMessage += PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: " + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language")][instrument];
+            actionBarMessage += (PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: ") + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language")][instrument];
         player.onScreenDisplay.setActionBar(actionBarMessage);
     });
 }, 1);

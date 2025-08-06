@@ -33,19 +33,18 @@ jobs:
             --exclude='.github/' \
             --exclude='.gitignore' \
             --exclude='README.md' \
-            --exclude='package-lock.json' \
+            --exclude='pnpm--lock.json' \
             --exclude='package.json' \
             --exclude='versions.json' \
             --exclude='src/' \
             --exclude='tsconfig.json' \
-            --exclude='.vscode/' \
             ./ build/
 
       - name: Create MCPACK
         run: |
+          VERSION="${{ github.event.inputs.tag_name }}"
           cd build
-          zip -r ../NoteBlockPlus.mcpack ./*
-
+          zip -r "../NoteBlockPlus_${VERSION}.mcpack" ./*
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -54,6 +53,6 @@ jobs:
           body: ${{ github.event.inputs.release_message }}
           draft: false
           prerelease: false
-          files: NoteBlockPlus.mcpack
+          files: NoteBlockPlus_${{ github.event.inputs.tag_name }}.mcpack
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
