@@ -1,9 +1,10 @@
-import { Block, BlockComponentTypes, BlockVolume, ItemStack, system, world } from "@minecraft/server";
+import { Block, BlockComponentTypes, BlockVolume, ItemStack, world } from "@minecraft/server";
 import { Instruments } from "./Data";
 import { InstrumentsType } from "../@types";
 
 export default class NoteBlock {
     static getScale(block: Block): number {
+        let result = -1;
         if (block.typeId !== "minecraft:noteblock") throw new Error("音ブロックではないブロックです。");
         try {
             const tempBlock = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }) as Block;
@@ -20,7 +21,8 @@ export default class NoteBlock {
             for (let i: number = 0; i < container.size; i++) {
                 const slot = container.getSlot(i);
                 if (slot.amount > 1) {
-                    return i;
+                    result = i;
+                    break;
                 }
             }
             const volume = new BlockVolume(tempBlock.location, tempBlock.location);
@@ -29,12 +31,13 @@ export default class NoteBlock {
         } catch (e) {
             throw e;
         }
+        return result;
     }
 
     static getInstrument(block: Block): InstrumentsType {
         const underblock = block.below(1); //1ブロック下のブロックを取得
         if (!underblock) return "piano";
-        const keys = Object.keys(Instruments)
+        const keys = Object.keys(Instruments) as unknown as (keyof typeof Instruments)[];
         for (const key of keys) {
             if (underblock.typeId.includes(key)) {
                 return Instruments[key];

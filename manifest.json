@@ -1,18 +1,18 @@
 {
 	"format_version": 2,
 	"header": {
-		"name": "Note Block+ v2.1.0",
+		"name": "Note Block+ v2.1.2",
 		"description": "音ブロックの音階を表示するアドオン。 \nCreated by oasoby",
 		"min_engine_version": [
 			1,
 			21,
-			90
+			100
 		],
 		"uuid": "fc863469-2162-461d-8ba8-2691c9197deb",
 		"version": [
 			2,
 			1,
-			0
+			2
 		]
 	},
 	"modules": [
@@ -27,7 +27,6 @@
 		},
 		{
 			"type": "script",
-			"language": "javascript",
 			"uuid": "4543713e-8261-47f1-8942-db4ea37598ce",
 			"entry": "scripts/main.js",
 			"version": [
@@ -40,11 +39,11 @@
 	"dependencies": [
 		{
 			"module_name": "@minecraft/server",
-			"version": "2.1.0-beta"
+			"version": "2.1.0"
 		},
 		{
 			"module_name": "@minecraft/server-ui",
-			"version": "2.1.0-beta"
+			"version": "2.0.0"
 		}
 	],
 	"metadata": {

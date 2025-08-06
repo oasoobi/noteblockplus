@@ -89,7 +89,7 @@ export const Instruments = {
     "trial_spawner": "bass_drum", //トライアルスポナー
     "vault": "bass_drum", //宝物庫
     "dragon_egg": "bass_drum"
-}
+} as const;
 
 export const colors = [
     { red: 91 / 255, green: 214 / 255, blue: 188 / 255 },
@@ -167,90 +167,89 @@ export const NoteBlockSounds = {
     "banjo": "note.banjo"
 };
 
-export const Scales = {
-    international: [
-        "F#",
-        "G",
-        "G#",
-        "A",
-        "A#",
-        "B",
-        "C",
-        "C#",
-        "D",
-        "D#",
-        "E",
-        "F",
-        "F#",
-        "G",
-        "G#",
-        "A",
-        "A#",
-        "B",
-        "C",
-        "C#",
-        "D",
-        "D#",
-        "E",
-        "F",
-        "F#"
+export const InternationalScales = [
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#"
+]
+
+export const SolfegeScales = {
+    en: [
+        "Fa#",
+        "Sol",
+        "Sol#",
+        "La",
+        "La#",
+        "Si(Ti)",
+        "Do",
+        "Do#",
+        "Re",
+        "Re#",
+        "Mi",
+        "Fa",
+        "Fa#",
+        "Sol",
+        "Sol#",
+        "La",
+        "La#",
+        "Si(Ti)",
+        "Do",
+        "Do#",
+        "Re",
+        "Re#",
+        "Mi",
+        "Fa",
+        "Fa#"
     ],
-    solfege: {
-        en: [
-            "Fa#",
-            "Sol",
-            "Sol#",
-            "La",
-            "La#",
-            "Si(Ti)",
-            "Do",
-            "Do#",
-            "Re",
-            "Re#",
-            "Mi",
-            "Fa",
-            "Fa#",
-            "Sol",
-            "Sol#",
-            "La",
-            "La#",
-            "Si(Ti)",
-            "Do",
-            "Do#",
-            "Re",
-            "Re#",
-            "Mi",
-            "Fa",
-            "Fa#"
-        ],
-        ja: [
-            "ファ#",
-            "ソ",
-            "ソ#",
-            "ラ",
-            "ラ#",
-            "シ",
-            "ド",
-            "ド#",
-            "レ",
-            "レ#",
-            "ミ",
-            "ファ",
-            "ファ#",
-            "ソ",
-            "ソ#",
-            "ラ",
-            "ラ#",
-            "シ",
-            "ド",
-            "ド#",
-            "レ",
-            "レ#",
-            "ミ",
-            "ファ",
-            "ファ#",
-        ]
-    }
+    ja: [
+        "ファ#",
+        "ソ",
+        "ソ#",
+        "ラ",
+        "ラ#",
+        "シ",
+        "ド",
+        "ド#",
+        "レ",
+        "レ#",
+        "ミ",
+        "ファ",
+        "ファ#",
+        "ソ",
+        "ソ#",
+        "ラ",
+        "ラ#",
+        "シ",
+        "ド",
+        "ド#",
+        "レ",
+        "レ#",
+        "ミ",
+        "ファ",
+        "ファ#",
+    ]
 }
 
 export const InstrumentsTranslateKey = {
@@ -302,4 +301,4 @@ export const DefaultConfig = {
     distance: 10
 }
 
-export const VERSION = "2.0.10";
+export const VERSION = "2.1.2";

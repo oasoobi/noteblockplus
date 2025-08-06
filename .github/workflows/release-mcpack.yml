@@ -33,12 +33,11 @@ jobs:
             --exclude='.github/' \
             --exclude='.gitignore' \
             --exclude='README.md' \
-            --exclude='package-lock.json' \
+            --exclude='pnpm--lock.json' \
             --exclude='package.json' \
             --exclude='versions.json' \
             --exclude='src/' \
             --exclude='tsconfig.json' \
-            --exclude='.vscode/' \
             ./ build/
 
       - name: Create MCPACK

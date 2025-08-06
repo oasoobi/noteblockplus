@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "module": "es2022",
-    "target": "es2023",
+    "target": "es2022",
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
     "outDir": "./scripts"
   },
-  "exclude": [ "node_modules" ],
-  "include": [ "src" ]
+  "exclude": ["node_modules"],
+  "include": ["src"]
 }
