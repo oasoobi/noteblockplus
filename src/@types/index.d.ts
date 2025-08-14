@@ -1,4 +1,4 @@
-import { Instruments } from "../lib/Data";
+import { Instruments } from "../lib/Constants";
 
 export type Language = "ja" | "en";
 

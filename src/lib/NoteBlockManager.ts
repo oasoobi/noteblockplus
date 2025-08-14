@@ -1,5 +1,5 @@
 import { Block, BlockComponentTypes, BlockVolume, ItemStack, world } from "@minecraft/server";
-import { Instruments } from "./Data";
+import { Instruments } from "./Constants";
 import { InstrumentsType } from "../@types";
 
 export default class NoteBlock {
@@ -25,6 +25,7 @@ export default class NoteBlock {
                     break;
                 }
             }
+            //fillblocksじゃないとブロックが出てくるので注意!!
             const volume = new BlockVolume(tempBlock.location, tempBlock.location);
             block.dimension.fillBlocks(volume, "minecraft:air");
             tempBlock.setPermutation(permutation);
@@ -35,7 +36,7 @@ export default class NoteBlock {
     }
 
     static getInstrument(block: Block): InstrumentsType {
-        const underblock = block.below(1); //1ブロック下のブロックを取得
+        const underblock = block.below(1);
         if (!underblock) return "piano";
         const keys = Object.keys(Instruments) as unknown as (keyof typeof Instruments)[];
         for (const key of keys) {

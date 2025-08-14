@@ -1,6 +1,6 @@
 import { system, world, CommandPermissionLevel, CustomCommandParamType, BlockTypes, MolangVariableMap } from "@minecraft/server";
 import PlayerDataManager from "./lib/PlayerDataManager";
-import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Data";
+import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Constants";
 import NoteBlock from "./lib/NoteBlockManager";
 import { commandFunc } from "./commands/index";
 import ConfigManager from "./lib/ConfigManager";
@@ -14,6 +14,27 @@ system.beforeEvents.startup.subscribe(e => {
     };
     e.customCommandRegistry.registerEnum("ntp:control", ["config", "toggle", "reset", "version"]);
     e.customCommandRegistry.registerCommand(noteBlockPlusCommand, commandFunc);
+});
+world.afterEvents.worldLoad.subscribe(() => {
+    system.runInterval(() => {
+        world.getAllPlayers().filter(player => PlayerDataManager.getIsEnable(player)).forEach(player => {
+            const viewRange = PlayerDataManager.getConfig(player, "distance") + 1;
+            const viewBlock = player.getBlockFromViewDirection({ maxDistance: viewRange ?? 10 })?.block;
+            if (!viewBlock || viewBlock.typeId !== "minecraft:noteblock")
+                return;
+            let actionBarMessage = "";
+            const scaleIndex = NoteBlock.getScale(viewBlock);
+            const scaleSet = PlayerDataManager.getConfig(player, "scaleDisplayStyle") == "international" ? InternationalScales : SolfegeScales[PlayerDataManager.getLang(player)];
+            actionBarMessage += PlayerDataManager.getConfig(player, "language") == "en" ? "scale: " : "音階: ";
+            actionBarMessage += scaleSet[scaleIndex];
+            if (PlayerDataManager.getConfig(player, "isDisplayClickCount"))
+                actionBarMessage += " click: " + scaleIndex;
+            const instrument = NoteBlock.getInstrument(viewBlock);
+            if (PlayerDataManager.getConfig(player, "isDisplayInstrument"))
+                actionBarMessage += (PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: ") + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language")][instrument];
+            player.onScreenDisplay.setActionBar(actionBarMessage);
+        });
+    }, 1);
 });
 world.afterEvents.playerSpawn.subscribe(e => {
     if (!e.initialSpawn)
@@ -45,22 +66,3 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
         player.dimension.spawnParticle("minecraft:note_particle", { x: block.location.x + 0.5, y: block.location.y + 1.2, z: block.location.z + 0.5 }, molangVariables);
     });
 });
-system.runInterval(() => {
-    world.getAllPlayers().filter(player => PlayerDataManager.getIsEnable(player)).forEach(player => {
-        const viewRange = PlayerDataManager.getConfig(player, "distance") + 1;
-        const viewBlock = player.getBlockFromViewDirection({ maxDistance: viewRange })?.block;
-        if (!viewBlock || viewBlock.typeId !== "minecraft:noteblock")
-            return;
-        let actionBarMessage = "";
-        const scaleIndex = NoteBlock.getScale(viewBlock);
-        const scaleSet = PlayerDataManager.getConfig(player, "scaleDisplayStyle") == "international" ? InternationalScales : SolfegeScales[PlayerDataManager.getLang(player)];
-        actionBarMessage += PlayerDataManager.getConfig(player, "language") == "en" ? "scale: " : "音階: ";
-        actionBarMessage += scaleSet[scaleIndex];
-        if (PlayerDataManager.getConfig(player, "isDisplayClickCount"))
-            actionBarMessage += " click: " + scaleIndex;
-        const instrument = NoteBlock.getInstrument(viewBlock);
-        if (PlayerDataManager.getConfig(player, "isDisplayInstrument"))
-            actionBarMessage += (PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: ") + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language")][instrument];
-        player.onScreenDisplay.setActionBar(actionBarMessage);
-    });
-}, 1);
