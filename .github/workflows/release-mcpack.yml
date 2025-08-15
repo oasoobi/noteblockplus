@@ -9,7 +9,7 @@ on:
         default: "1.0.0"
         type: string
       release_message:
-        description: "The message for the release"
+        description: "The message for the release (use \\n for line breaks)"
         required: true
         default: "Release message"
         type: string
@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # リリース作成に必要な権限を明示的に設定
+      contents: write
 
     steps:
       - name: Checkout code
@@ -45,14 +45,59 @@ jobs:
           VERSION="${{ github.event.inputs.tag_name }}"
           cd build
           zip -r "../NoteBlockPlus_${VERSION}.mcpack" ./*
+
+      # 改行対応メッセージを準備（GitHub ReleaseとDiscord両方で使う）
+      - name: Prepare release message
+        id: prep_msg
+        run: |
+          RELEASE_MSG="${{ github.event.inputs.release_message }}"
+          RELEASE_MSG=$(echo "$RELEASE_MSG" | sed 's/\\n/\n/g')
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$RELEASE_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.event.inputs.tag_name }}
           name: ${{ github.event.inputs.tag_name }}
-          body: ${{ github.event.inputs.release_message }}
+          body: ${{ steps.prep_msg.outputs.message }}
           draft: false
           prerelease: false
           files: NoteBlockPlus_${{ github.event.inputs.tag_name }}.mcpack
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Discord (Embed)
+        run: |
+          PAYLOAD=$(jq -n \
+            --arg title "📦 NoteBlockPlusのアップデート" \
+            --arg desc "${{ steps.prep_msg.outputs.message }}" \
+            --arg version "${{ github.event.inputs.tag_name }}" \
+            --arg repo "${{ github.repository }}" \
+            --arg url_changes "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.inputs.tag_name }}" \
+            --arg url_issues "https://github.com/${{ github.repository }}/issues" \
+            --arg url_download "https://go.oasoobi.net/NoteBlockPlus" \
+            --arg time "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{
+              embeds: [
+                {
+                  title: $title,
+                  description: $desc,
+                  color: 5814783,
+                  fields: [
+                    { name: "Version", value: ("`" + $version + "`"), inline: true },
+                    { name: "変更点を見る", value: ("[Link](" + $url_changes + ")"), inline: true },
+                    { name: "問題を報告", value: ("[Link](" + $url_issues + ")"), inline: true },
+                    { name: "ダウンロード", value: ("[Click Here](" + $url_download + ")") }
+                  ],
+                  timestamp: $time
+                }
+              ]
+            }'
+          )
+
+          curl -H "Content-Type: application/json" \
+                -X POST \
+                -d "$PAYLOAD" \
+                ${{ secrets.DISCORD_WEBHOOK_URL }}
