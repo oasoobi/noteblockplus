@@ -71,7 +71,7 @@ jobs:
       - name: Notify Discord (Embed + Buttons + Mention)
         run: |
           PAYLOAD=$(jq -n \
-            --arg mention "<@&1405885877636562965>" \
+            --arg mention "<@&${{secrets.DISCORD_NOTIFY_ROLE_ID}}>" \
             --arg title "📦 NoteBlockPlusのアップデート" \
             --arg desc "${{ steps.prep_msg.outputs.message }}" \
             --arg version "${{ github.event.inputs.tag_name }}" \
