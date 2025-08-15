@@ -1,5 +1,4 @@
 name: Build and Release MCPACK
-
 on:
   workflow_dispatch:
     inputs:
@@ -13,17 +12,14 @@ on:
         required: true
         default: "Release message"
         type: string
-
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Clean up unnecessary files
         run: |
           mkdir -p build
@@ -39,13 +35,11 @@ jobs:
             --exclude='src/' \
             --exclude='tsconfig.json' \
             ./ build/
-
       - name: Create MCPACK
         run: |
           VERSION="${{ github.event.inputs.tag_name }}"
           cd build
           zip -r "../NoteBlockPlus_${VERSION}.mcpack" ./*
-
       # 改行対応メッセージを準備（GitHub ReleaseとDiscord両方で使う）
       - name: Prepare release message
         id: prep_msg
@@ -55,7 +49,6 @@ jobs:
           echo "message<<EOF" >> $GITHUB_OUTPUT
           echo "$RELEASE_MSG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -67,10 +60,10 @@ jobs:
           files: NoteBlockPlus_${{ github.event.inputs.tag_name }}.mcpack
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify Discord (Embed)
+      - name: Notify Discord (Embed with Buttons)
         run: |
           PAYLOAD=$(jq -n \
+            --arg content "<@&${{ secrets.DISCORD_NOTIFY_ROLE_ID }}>" \
             --arg title "📦 NoteBlockPlusのアップデート" \
             --arg desc "${{ steps.prep_msg.outputs.message }}" \
             --arg version "${{ github.event.inputs.tag_name }}" \
@@ -80,23 +73,48 @@ jobs:
             --arg url_download "https://go.oasoobi.net/NoteBlockPlus" \
             --arg time "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             '{
+              content: $content,
               embeds: [
                 {
                   title: $title,
                   description: $desc,
                   color: 5814783,
                   fields: [
-                    { name: "Version", value: ("`" + $version + "`"), inline: true },
-                    { name: "変更点を見る", value: ("[Link](" + $url_changes + ")"), inline: true },
-                    { name: "問題を報告", value: ("[Link](" + $url_issues + ")"), inline: true },
-                    { name: "ダウンロード", value: ("[Click Here](" + $url_download + ")") }
+                    { name: "Version", value: ("`" + $version + "`"), inline: true }
                   ],
                   timestamp: $time
+                }
+              ],
+              components: [
+                {
+                  type: 1,
+                  components: [
+                    {
+                      type: 2,
+                      style: 5,
+                      label: "ダウンロード",
+                      url: $url_download,
+                      emoji: { name: "📥" }
+                    },
+                    {
+                      type: 2,
+                      style: 5,
+                      label: "変更点を見る",
+                      url: $url_changes,
+                      emoji: { name: "📋" }
+                    },
+                    {
+                      type: 2,
+                      style: 5,
+                      label: "問題を報告",
+                      url: $url_issues,
+                      emoji: { name: "🐛" }
+                    }
+                  ]
                 }
               ]
             }'
           )
-
           curl -H "Content-Type: application/json" \
                 -X POST \
                 -d "$PAYLOAD" \
