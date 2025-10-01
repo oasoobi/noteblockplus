@@ -1,4 +1,4 @@
-import { system, world, CommandPermissionLevel, CustomCommand, CustomCommandParamType, BlockTypes, MolangVariableMap } from "@minecraft/server";
+import { system, world, CommandPermissionLevel, CustomCommand, CustomCommandParamType, BlockTypes, MolangVariableMap, Vector3 } from "@minecraft/server";
 import PlayerDataManager from "./lib/PlayerDataManager";
 import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Constants";
 import NoteBlock from "./lib/NoteBlockManager";
