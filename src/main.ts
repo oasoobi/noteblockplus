@@ -1,4 +1,4 @@
-import { system, world, CommandPermissionLevel, CustomCommand, CustomCommandParamType, BlockTypes, MolangVariableMap, Vector3 } from "@minecraft/server";
+import { system, world, CommandPermissionLevel, CustomCommand, CustomCommandParamType, BlockTypes, MolangVariableMap } from "@minecraft/server";
 import PlayerDataManager from "./lib/PlayerDataManager";
 import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Constants";
 import NoteBlock from "./lib/NoteBlockManager";
@@ -49,7 +49,7 @@ world.afterEvents.playerSpawn.subscribe(e => {
     if (!e.initialSpawn) return;
     new ConfigManager(e.player).init();
 
-    if (world.getAllPlayers().length < 2) e.player.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus v${VERSION} has been loaded successfully!\nIf you no longer see this message, please check for updates at https://go.oasoobi.net/NoteBlockPlus.§r`)
+    if (world.getAllPlayers().length < 2) e.player.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nサポートや更新を受け取りたい場合は、Discordサーバーに参加してください: https://go.oasoobi.net/discord\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus v${VERSION} has been loaded successfully!\nIf you no longer see this message, please check for updates at https://go.oasoobi.net/NoteBlockPlus.§r\nIf you'd like to get help or updates, you can join my discord server: https://go.oasoobi.net/discord`)
 })
 
 world.beforeEvents.playerInteractWithBlock.subscribe(e => {
@@ -76,4 +76,3 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
         player.dimension.spawnParticle("minecraft:note_particle", { x: block.location.x + 0.5, y: block.location.y + 1.2, z: block.location.z + 0.5 }, molangVariables);
     })
 })
-
