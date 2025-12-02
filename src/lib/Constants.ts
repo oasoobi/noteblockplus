@@ -121,7 +121,6 @@ export const colors = [
     { red: 92 / 255, green: 217 / 255, blue: 191 / 255 }
 ];
 
-
 export const NoteBlockPitches = [
     0.500, // F#3
     0.530, // G3
@@ -303,4 +302,4 @@ export const DefaultConfig = {
     distance: 10
 }
 
-export const VERSION = "2.2.4";
+export const VERSION = "2.2.5";

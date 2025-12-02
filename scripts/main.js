@@ -41,7 +41,7 @@ world.afterEvents.playerSpawn.subscribe(e => {
         return;
     new ConfigManager(e.player).init();
     if (world.getAllPlayers().length < 2)
-        e.player.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました。\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください。\nサポートや更新を受け取りたい場合は、Discordサーバーに参加してください: https://go.oasoobi.net/discord\nhttps://go.oasoobi.net/NoteBlockPlus\n\nNoteBlockPlus v${VERSION} has been loaded successfully!\nIf you no longer see this message, please check for updates at https://go.oasoobi.net/NoteBlockPlus.§r\nIf you'd like to get help or updates, you can join my discord server: https://go.oasoobi.net/discord`);
+        e.player.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました!\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください: https://go.oasoobi.net/NoteBlockPlus\nサポートや更新を受け取りたい場合は、Discordサーバーに参加してください: https://go.oasoobi.net/discord\n\nNoteBlockPlus v${VERSION} has been loaded successfully!\nIf you no longer see this message, please check for updates at: https://go.oasoobi.net/NoteBlockPlus\nIf you'd like to get help or updates, you can join our discord server: https://go.oasoobi.net/discord\n---------------------§r`);
 });
 world.beforeEvents.playerInteractWithBlock.subscribe(e => {
     const { block, player, itemStack } = e;
@@ -55,7 +55,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
         const scale = NoteBlock.getScale(block);
         const instrument = NoteBlock.getInstrument(block);
         if (!instrument)
-            return console.error("楽器の取得に失敗しました。");
+            return;
         const index = typeof scale === 'number' && scale - 1 >= 0 ? scale - 1 : 24;
         const molangVariables = new MolangVariableMap();
         molangVariables.setColorRGB("variable.note_color", colors[index]);
