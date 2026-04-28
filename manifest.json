@@ -23,11 +23,11 @@
   "dependencies": [
     {
       "module_name": "@minecraft/server",
-      "version": "stable"
+      "version": "2.7.0"
     },
     {
       "module_name": "@minecraft/server-ui",
-      "version": "stable"
+      "version": "2.0.0"
     }
   ],
   "metadata": {
