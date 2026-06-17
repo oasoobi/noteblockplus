@@ -38,6 +38,7 @@ jobs:
             --exclude='versions.json' \
             --exclude='src/' \
             --exclude='tsconfig.json' \
+            --exclude='biome.json' \
             ./ build/
 
       - name: Create MCPACK
