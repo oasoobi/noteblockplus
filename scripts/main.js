@@ -1,54 +1,85 @@
-import { system, world, CommandPermissionLevel, CustomCommandParamType, BlockTypes, MolangVariableMap } from "@minecraft/server";
+import { system, world, CommandPermissionLevel, CustomCommandParamType, BlockTypes, MolangVariableMap, } from "@minecraft/server";
 import PlayerDataManager from "./lib/PlayerDataManager";
-import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors } from "./lib/Constants";
+import { NoteBlockPitches, NoteBlockSounds, InternationalScales, SolfegeScales, VERSION, InstrumentsTranslateKey, colors, } from "./lib/Constants";
 import NoteBlock from "./lib/NoteBlockManager";
 import { commandFunc } from "./commands/index";
 import ConfigManager from "./lib/ConfigManager";
-system.beforeEvents.startup.subscribe(e => {
+system.beforeEvents.startup.subscribe((e) => {
     const noteBlockPlusCommand = {
         name: "ntp:ntp",
         description: "NoteBlock+を管理するコマンド。 / NoteBlockPlus Control Commands.",
         permissionLevel: CommandPermissionLevel.Any,
-        mandatoryParameters: [{ type: CustomCommandParamType.Enum, name: "ntp:control" }],
-        cheatsRequired: false
+        mandatoryParameters: [
+            { type: CustomCommandParamType.Enum, name: "ntp:control" },
+        ],
+        cheatsRequired: false,
     };
-    e.customCommandRegistry.registerEnum("ntp:control", ["config", "toggle", "reset", "version"]);
+    e.customCommandRegistry.registerEnum("ntp:control", [
+        "config",
+        "toggle",
+        "reset",
+        "version",
+    ]);
     e.customCommandRegistry.registerCommand(noteBlockPlusCommand, commandFunc);
 });
 world.afterEvents.worldLoad.subscribe(() => {
     system.runInterval(() => {
-        world.getAllPlayers().filter(player => PlayerDataManager.getIsEnable(player)).forEach(player => {
-            const viewRange = PlayerDataManager.getConfig(player, "distance") + 1;
-            const viewBlock = player.getBlockFromViewDirection({ maxDistance: viewRange ?? 10 })?.block;
-            if (!viewBlock || viewBlock.typeId !== "minecraft:noteblock")
+        world
+            .getAllPlayers()
+            .filter((player) => PlayerDataManager.getIsEnable(player))
+            .forEach((player) => {
+            const viewRange = PlayerDataManager.getConfig(player, "distance") + 1 || 10;
+            const viewBlock = player.getBlockFromViewDirection({
+                maxDistance: viewRange,
+            })?.block;
+            if (viewBlock?.typeId !== "minecraft:noteblock")
                 return;
             let actionBarMessage = "";
             const scaleIndex = NoteBlock.getScale(viewBlock);
-            const scaleSet = PlayerDataManager.getConfig(player, "scaleDisplayStyle") == "international" ? InternationalScales : SolfegeScales[PlayerDataManager.getLang(player)];
-            actionBarMessage += PlayerDataManager.getConfig(player, "language") == "en" ? "scale: " : "音階: ";
+            const scaleSet = PlayerDataManager.getConfig(player, "scaleDisplayStyle") === "international"
+                ? InternationalScales
+                : SolfegeScales[PlayerDataManager.getLang(player)];
+            actionBarMessage +=
+                PlayerDataManager.getConfig(player, "language") === "en"
+                    ? "scale: "
+                    : "音階: ";
             actionBarMessage += scaleSet[scaleIndex];
             if (PlayerDataManager.getConfig(player, "isDisplayClickCount"))
-                actionBarMessage += " click: " + scaleIndex;
+                actionBarMessage += ` click: ${scaleIndex.toString()}`;
             const instrument = NoteBlock.getInstrument(viewBlock);
             if (PlayerDataManager.getConfig(player, "isDisplayInstrument"))
-                actionBarMessage += (PlayerDataManager.getConfig(player, "language") == "en" ? " instrument: " : " 楽器: ") + InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language")][instrument];
+                actionBarMessage +=
+                    (PlayerDataManager.getConfig(player, "language") === "en"
+                        ? " instrument: "
+                        : " 楽器: ") +
+                        InstrumentsTranslateKey[PlayerDataManager.getConfig(player, "language")][instrument];
             player.onScreenDisplay.setActionBar(actionBarMessage);
         });
-    }, 1);
+    }, 10);
 });
-world.afterEvents.playerSpawn.subscribe(e => {
+world.afterEvents.playerSpawn.subscribe((e) => {
     if (!e.initialSpawn)
         return;
     new ConfigManager(e.player).init();
     if (world.getAllPlayers().length < 2)
         e.player.sendMessage(`\n§l§eNoteblock+ v${VERSION} created by oasobi\n§r§p---------------------\nNoteBlockPlus v${VERSION}が正常に読み込まれました!\nこのメッセージが表示されなくなった場合は、以下のリンクにアクセスしてください: https://go.oasoobi.net/NoteBlockPlus\nサポートや更新を受け取りたい場合は、Discordサーバーに参加してください: https://go.oasoobi.net/discord\n\nNoteBlockPlus v${VERSION} has been loaded successfully!\nIf you no longer see this message, please check for updates at: https://go.oasoobi.net/NoteBlockPlus\nIf you'd like to get help or updates, you can join our discord server: https://go.oasoobi.net/discord\n---------------------§r`);
 });
-world.beforeEvents.playerInteractWithBlock.subscribe(e => {
+world.beforeEvents.playerInteractWithBlock.subscribe((e) => {
     const { block, player, itemStack } = e;
+    if (block.typeId !== "minecraft:noteblock" ||
+        !player.isSneaking ||
+        !PlayerDataManager.getIsEnable(player) ||
+        !PlayerDataManager.getConfig(player, "isReverseEnabled") ||
+        (itemStack && BlockTypes.get(itemStack?.typeId) !== undefined))
+        return;
     if (!e.isFirstEvent) {
         e.cancel = true;
     }
-    if (block.typeId !== "minecraft:noteblock" || !player.isSneaking || !PlayerDataManager.getIsEnable(player) || !PlayerDataManager.getConfig(player, "isReverseEnabled") || (itemStack && BlockTypes.get(itemStack?.typeId) !== undefined))
+    if (block.typeId !== "minecraft:noteblock" ||
+        !player.isSneaking ||
+        !PlayerDataManager.getIsEnable(player) ||
+        !PlayerDataManager.getConfig(player, "isReverseEnabled") ||
+        (itemStack && BlockTypes.get(itemStack?.typeId) !== undefined))
         return;
     e.cancel = true;
     system.run(() => {
@@ -56,13 +87,21 @@ world.beforeEvents.playerInteractWithBlock.subscribe(e => {
         const instrument = NoteBlock.getInstrument(block);
         if (!instrument)
             return;
-        const index = typeof scale === 'number' && scale - 1 >= 0 ? scale - 1 : 24;
+        const index = typeof scale === "number" && scale - 1 >= 0 ? scale - 1 : 24;
         const molangVariables = new MolangVariableMap();
         molangVariables.setColorRGB("variable.note_color", colors[index]);
         world.structureManager.place(`${index}`, block.dimension, block.location);
         if (!block.above(1)?.isAir)
             return;
-        player.dimension.playSound(NoteBlockSounds[instrument], block.location, { pitch: NoteBlockPitches[index], volume: 100 });
-        player.dimension.spawnParticle("minecraft:note_particle", { x: block.location.x + 0.5, y: block.location.y + 1.2, z: block.location.z + 0.5 }, molangVariables);
+        player.dimension.playSound(NoteBlockSounds[instrument], block.location, {
+            pitch: NoteBlockPitches[index],
+            volume: 100,
+        });
+        player.dimension.spawnParticle("minecraft:note_particle", {
+            x: block.location.x + 0.5,
+            y: block.location.y + 1.2,
+            z: block.location.z + 0.5,
+        }, molangVariables);
     });
 });
+//# sourceMappingURL=main.js.map

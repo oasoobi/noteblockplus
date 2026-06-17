@@ -3,10 +3,10 @@ export default class PlayerDataManager {
         return player.getDynamicProperty("language") ?? "en";
     }
     static setDisable(player) {
-        return player.setDynamicProperty("isEnable", false);
+        player.setDynamicProperty("isEnable", false);
     }
     static setEnable(player) {
-        return player.setDynamicProperty("isEnable", true);
+        player.setDynamicProperty("isEnable", true);
     }
     static getIsEnable(player) {
         return player.getDynamicProperty("isEnable") ?? true;
@@ -15,3 +15,4 @@ export default class PlayerDataManager {
         return player.getDynamicProperty(configType);
     }
 }
+//# sourceMappingURL=PlayerDataManager.js.map

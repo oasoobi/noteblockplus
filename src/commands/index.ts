@@ -1,45 +1,78 @@
-import { CustomCommandOrigin, CustomCommandResult, CustomCommandSource, CustomCommandStatus, system, Player } from "@minecraft/server";
+import {
+  CustomCommandOrigin,
+  CustomCommandResult,
+  CustomCommandSource,
+  CustomCommandStatus,
+  system,
+  Player,
+} from "@minecraft/server";
 import PlayerDataManager from "../lib/PlayerDataManager";
 import { VERSION } from "../lib/Constants";
 import ConfigManager from "../lib/ConfigManager";
 
+export function commandFunc(
+  origin: CustomCommandOrigin,
+  control: string,
+): CustomCommandResult {
+  if (
+    origin.sourceType !== CustomCommandSource.Entity &&
+    origin.sourceEntity?.typeId !== "minecraft:player"
+  )
+    return { status: CustomCommandStatus.Failure };
+  const player: Player = origin.sourceEntity as Player;
 
+  if (control === "config") {
+    system.runTimeout(() => {
+      new ConfigManager(player).openConfig();
+    });
+    return { status: CustomCommandStatus.Success };
+  }
 
-export function commandFunc(origin: CustomCommandOrigin, control: string): CustomCommandResult {
-    if (origin.sourceType !== CustomCommandSource.Entity && origin.sourceEntity?.typeId !== "minecraft:player") return { status: CustomCommandStatus.Failure };
-    const player: Player = origin.sourceEntity as Player;
+  if (control === "reset") {
+    system.runTimeout(() => {
+      new ConfigManager(player).reset();
+    });
+    return {
+      status: CustomCommandStatus.Success,
+      message:
+        PlayerDataManager.getLang(player) === "ja"
+          ? "§e設定を初期化しました。"
+          : "§eSettings have been reset.",
+    } as CustomCommandResult;
+  }
 
-    if (control == "config") {
-        system.runTimeout(() => {
-            new ConfigManager(player).openConfig();
-        })
-        return { status: CustomCommandStatus.Success };
-    }
+  if (control === "toggle") {
+    system.runTimeout(() => {
+      if (PlayerDataManager.getIsEnable(player)) {
+        PlayerDataManager.setDisable(player);
+      } else {
+        PlayerDataManager.setEnable(player);
+      }
+    });
+    if (PlayerDataManager.getLang(player))
+      return {
+        status: CustomCommandStatus.Success,
+        message: `${PlayerDataManager.getIsEnable(player) ? "§e音階表示を有効にしました。" : "§e音階表示を無効にしました。"}`,
+      };
+    if (PlayerDataManager.getLang(player))
+      return {
+        status: CustomCommandStatus.Success,
+        message: `${PlayerDataManager.getIsEnable(player) ? "§eThe scale display has been enabled." : "§eThe scale display has been disabled."}`,
+      };
+  }
 
-    if (control == "reset") {
-        system.runTimeout(() => {
-            new ConfigManager(player).reset();
-        })
-        return { status: CustomCommandStatus.Success, message: PlayerDataManager.getLang(player) == "ja" ? "§e設定を初期化しました。" : "§eSettings have been reset." } as CustomCommandResult;
-    }
+  if (control === "version") {
+    return {
+      status: CustomCommandStatus.Success,
+      message: `§eNoteBlock+ v${VERSION}`,
+    };
+  }
 
-    if (control == "toggle") {
-        system.runTimeout(() => {
-            if (PlayerDataManager.getIsEnable(player)) {
-                PlayerDataManager.setDisable(player);
-            } else {
-                PlayerDataManager.setEnable(player);
-            }
-
-        })
-        if (PlayerDataManager.getLang(player)) return { status: CustomCommandStatus.Success, message: `${PlayerDataManager.getIsEnable(player) ? "§e音階表示を有効にしました。" : "§e音階表示を無効にしました。"}` };
-        if (PlayerDataManager.getLang(player)) return { status: CustomCommandStatus.Success, message: `${PlayerDataManager.getIsEnable(player) ? "§eThe scale display has been enabled." : "§eThe scale display has been disabled."}` }
-
-    }
-
-    if (control == "version") {
-        return { status: CustomCommandStatus.Success, message: `§eNoteBlock+ v${VERSION}` }
-    }
-
-    return { status: CustomCommandStatus.Failure, message: PlayerDataManager.getLang(player) == "ja" ? `${control} は無効です。` : `${control} is not valid.` }
+  return {
+    status: CustomCommandStatus.Failure,
+    message:
+      PlayerDataManager.getLang(player) === "ja"
+        ? `${control} は無効です。`
+        : `${control} is not valid.`,
+  };
 }

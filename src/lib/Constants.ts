@@ -95,6 +95,8 @@ export const Instruments = {
   trial_spawner: "bass_drum", //トライアルスポナー
   vault: "bass_drum", //宝物庫
   dragon_egg: "bass_drum",
+  cinnabar: "bass_drum",
+  sulfur: "bass_drum",
 } as const;
 
 export const colors = [
@@ -318,4 +320,4 @@ export const DefaultConfig = {
   distance: 10,
 };
 
-export const VERSION = "2.2.7";
+export const VERSION = "2.2.8";

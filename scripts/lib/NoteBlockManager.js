@@ -1,16 +1,21 @@
-import { BlockComponentTypes, StructureSaveMode, world } from "@minecraft/server";
+import { BlockComponentTypes, StructureSaveMode, world, } from "@minecraft/server";
 import { Instruments } from "./Constants";
-export default class NoteBlock {
+class NoteBlock {
     static getScale(block) {
-        const tempId = "ntp:tempblock";
+        const tempId = `ntp:tempblock_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
         let result = -1;
         if (block.typeId !== "minecraft:noteblock")
             throw new Error("音ブロックではないブロックです。");
+        const topLoc = {
+            x: block.location.x,
+            y: block.dimension.heightRange.max - 1,
+            z: block.location.z,
+        };
         try {
-            const tempBlock = block.dimension.getBlock({ x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
-            world.structureManager.createFromWorld(tempId, block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z }, { saveMode: StructureSaveMode.Memory });
+            const tempBlock = block.dimension.getBlock(topLoc);
             if (!tempBlock)
                 throw new Error("ブロックが見つかりません。");
+            world.structureManager.createFromWorld(tempId, block.dimension, topLoc, topLoc, { saveMode: StructureSaveMode.Memory });
             world.structureManager.place("__noteblocks", block.dimension, tempBlock.location);
             const container = tempBlock.getComponent(BlockComponentTypes.Inventory)?.container;
             if (!container)
@@ -18,16 +23,20 @@ export default class NoteBlock {
             container.addItem(block.getItemStack(1, true));
             for (let i = 0; i < container.size; i++) {
                 const slot = container.getSlot(i);
+                if (!slot.hasItem())
+                    continue;
                 if (slot.amount > 1) {
                     result = i;
                     break;
                 }
             }
-            world.structureManager.place(tempId, block.dimension, { x: block.location.x, y: block.dimension.heightRange.max - 1, z: block.location.z });
-            world.structureManager.delete(tempId);
+            world.structureManager.place(tempId, block.dimension, topLoc);
         }
-        catch (e) {
-            throw e;
+        finally {
+            try {
+                world.structureManager.delete(tempId);
+            }
+            catch { }
         }
         return result;
     }
@@ -44,3 +53,6 @@ export default class NoteBlock {
         return "piano";
     }
 }
+NoteBlock.counter = 0;
+export default NoteBlock;
+//# sourceMappingURL=NoteBlockManager.js.map
