@@ -1,4 +1,8 @@
 export const Instruments = {
+    straw_bed: "piano", //わらのベッド
+    sapling: "piano", //苗木系
+    shelf_mushroom: "piano", //棚のきのこ
+    wool_: "piano", //羊毛系の階段及びハーフブロック
     oxidized_copper: "trumpet_oxidized",
     weathered_copper: "trumpet_weathered",
     exposed_copper: "trumpet_exposed",
@@ -13,6 +17,7 @@ export const Instruments = {
     bookshelf: "bass",
     creaking_heart: "bass", //クリーキングの心臓
     pale_oak: "bass", //ペールオーク系
+    poplar: "bass", //ポプラ系
     oak: "bass", //オークの木材系
     spruce: "bass", //トウヒ系
     birch: "bass", //樺系
