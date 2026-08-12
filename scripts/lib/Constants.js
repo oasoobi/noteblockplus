@@ -317,5 +317,5 @@ export const DefaultConfig = {
     isReverseEnabled: false,
     distance: 10,
 };
-export const VERSION = "2.2.8";
+export const VERSION = "2.2.9";
 //# sourceMappingURL=Constants.js.map
